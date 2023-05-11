@@ -1,37 +1,23 @@
-HSD - Fachbereich Medien
-
-Sommersemester 2023
-
-Studiengang: Medieninformatik (B.Sc.)
-
-Modul: Informatikprojekt 1
-
-Dozierende: Prof. Dr. Florian Huber und David Sokalski
-
-Studierende: Amelie Schepping (), Nora Abdulaziz () und Klara C. Jansen (912118)
 # Spiel(en) mit KI und Data Science in Python
-### Ein MNK-Spiel in der Variante m = 5, n = 5, k = 4
 
-[-----------To-Do:----------------]
+[-------------Kurze Beschreibung des Projekts oder der Anwendung.--------------------]
 
-Spiel Mensch gegen Mensch
-
-Spiel gegen Computer (Zufalls-KI)
-
-Spiel gegen Computer (einfache KI mit erkennbarer Strategie)
-
-OPTIONAL: Spiel gegen Computer (komplexere KI: MiniMax)
-
-Spiel Computer vs. Computer
-
-KI die mit anderen Gruppen integrierbar ist!
+Ein MNK-Spiel in der Variante m = 5, n = 5, k = 4
 
 
+- Spiel Mensch gegen Mensch
 
-[-------------Hier steht ein Text, der das Programm beschreibt, mit folgenden optionalen Einträgen::------------]
-# Projektname
+- Spiel gegen Computer (Zufalls-KI)
 
-Kurze Beschreibung des Projekts oder der Anwendung.
+- Spiel gegen Computer (einfache KI mit erkennbarer Strategie)
+
+- OPTIONAL: Spiel gegen Computer (komplexere KI: MiniMax)
+
+- Spiel Computer vs. Computer
+
+- KI die mit anderen Gruppen integrierbar ist!
+
+[---------Typische Gliederung eines READMEs (nach ChatGPT) mit folgenden optionalen Abschnitten --------------]
 
 ## Inhaltsverzeichnis
 
