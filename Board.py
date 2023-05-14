@@ -13,7 +13,7 @@ class Board:
         self.fields = np.zeros((m, n), dtype=int)
 
     """
-    Funktion, um das Spielfeld darzustellen
+    Funktion stellt das Spielfeld in einem nummerierten Raster dar
     """
     def display(self):
         print()
