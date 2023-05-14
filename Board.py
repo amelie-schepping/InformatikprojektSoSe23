@@ -41,13 +41,19 @@ class Board:
     :return: gibt an, wer gewonnen hat (s.o.)
     """
     def has_won(self):
-        return 1
+        if is_game_won_by(self, player1.player_number, k) == True:
+            return 1
+        else:
+            if is_game_won_by(self, player2.player_number, k) == True:
+                return 2
+            else:
+                return 0
 
     """
     Funktion, die zurückgibt, ob das Spiel gewonnen wurde
     :return: wurde das Spiel gewonnen (ja/nein)
     """
-    def is_game_won(self, k):
+    def is_game_won_by(self,  player_number, k):
         return False
         # check in rows
         # for row in range(self.m):

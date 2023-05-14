@@ -71,7 +71,7 @@ class Game:
         """
 
         # Beginn des Gameloops
-        while self.board.is_game_won(self.k) == False:
+        while self.board.is_game_won_by(self.current_player.player_number, self.k) == False:
             # solange niemand gewonnen hat:
 
             # aktueller Spieler macht einen Spielzug
