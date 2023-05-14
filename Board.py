@@ -34,16 +34,34 @@ class Board:
         print()
 
     """
-    Funktion, die zurückgibt, ob das Spiel gewonnen wurde
+    Funktion, die zurückgibt, wer das Spiel gewonnen hat
     0 = unentschieden
     1 = Sieg Spieler 1
     2 = Sieg Spieler 2
     :return: gibt an, wer gewonnen hat (s.o.)
     """
-    # def has_won(self, k):
+    def has_won(self):
+        return 1
+
+    """
+    Funktion, die zurückgibt, ob das Spiel gewonnen wurde
+    :return: wurde das Spiel gewonnen (ja/nein)
+    """
+    def is_game_won(self, k):
+        return False
         # check in rows
         # for row in range(self.m):
         # check in cols
         # for col in range(self.n):
         # check in diagonal
         # muss k übergeben werden? dynamische Anpassung, falls gewinn methode geändert wird
+
+    """
+    Funktion prüft, ob ein Spielzug gültig ist
+    :return: gültig (ja/nein)
+    """
+    def is_move_valid(self, row, col):
+        if row >= 0 and row < self.m and col >= 0 and col < self.n and self.fields[row][col] == 0:
+            return True
+        else:
+            return False
