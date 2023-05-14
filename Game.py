@@ -21,17 +21,15 @@ class Game:
         self.player2 = Player("Player2", 2, 'O')
 
     """
-    Funktion, die das Spiel startet
+    Funktion startet das Spiel
+    - gibt das Startfeld aus
     """
 
     def start(self):
-        # Spielfeld größe erst in der Main bestimmen
-        # self.Game(5, 5, 4)
 
         # Feld ausgeben
         self.board.display()
 
-        # Darstellung des Spielfelds
         # wer fängt an?
 
     """
