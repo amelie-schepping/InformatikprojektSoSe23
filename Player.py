@@ -1,6 +1,7 @@
 class Player:
     """
-    Konstruktor initialisiert Instanzvariablen
+    Konstruktor der Klasse Player
+    - initialisiert folgende Instanzvariablen
     name: Name von Player
     player_number: Player 1 oder 2
     symbol: Symbol des Players für die Spielzüge
@@ -30,3 +31,10 @@ class Player:
         # Indexieren wie bei Schiffeversenken --> später in Array-Indexierung umwandeln
 
 
+    """
+    Funktion fordert Namenseingabe von Player über die Konsole
+    und setzt diesen als Namen des Players
+    """
+    def set_player_name(self):
+        new_name = input("Type in your name: ")
+        self.name = new_name
