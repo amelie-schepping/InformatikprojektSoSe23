@@ -41,12 +41,13 @@ class Board:
     :return: gibt an, wer gewonnen hat (s.o.)
     """
     def has_won(self):
-        if is_game_won_by(self, player1.player_number, k) == True:
+        if self.is_game_won_by(self, player1.player_number, k) == True:
             return 1
         else:
-            if is_game_won_by(self, player2.player_number, k) == True:
+            if self.is_game_won_by(self, player2.player_number, k) == True:
                 return 2
             else:
+                # unentschieden, es muss überprüft werden, ob alle Felder belegt sind
                 return 0
 
     """
@@ -54,13 +55,34 @@ class Board:
     :return: wurde das Spiel gewonnen (ja/nein)
     """
     def is_game_won_by(self,  player_number, k):
-        return False
-        # check in rows
-        # for row in range(self.m):
-        # check in cols
-        # for col in range(self.n):
-        # check in diagonal
-        # muss k übergeben werden? dynamische Anpassung, falls gewinn methode geändert wird
+
+        # Überprüfung in Zeilen & Spalten
+        for row in range(self.m):
+            for col in range(self.n):
+                # Zähler
+                count = 0
+                if self.fields[row][col] == player_number:
+                    # Zähler wird hochgezählt, wenn player_number auftaucht
+                    count += 1
+                    if count == k:
+                        print(f"{player_number} hat das Spiel gewonnen!")
+                else:
+                    # Zähler zurücksetzen bei Unterbrechung
+                    count = 0
+
+        # Überprüfung in Diagonale
+        # sicherstellen, dass Startposition mindestens k Elemente von den Rändern der Zeilen und Spalten entfernt ist
+        for row in range(self.m - k + 1):
+            for col in range(self.n - k + 1):
+                # Zähler
+                count = 0
+                for diagonal in range(k):
+                    if self.fields[row + diagonal, col + diagonal] == player_number:
+                        count += 1
+                        if count == k:
+                            print(f"{player_number} hat das Spiel gewonnen!")
+                    else:
+                        count = 0
 
     """
     Funktion prüft, ob ein Spielzug gültig ist
