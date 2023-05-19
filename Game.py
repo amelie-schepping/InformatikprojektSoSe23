@@ -16,13 +16,13 @@ class Game:
     player2: Player 2
     """
     def __init__(self, m, n, k):
-        #k muss initialisiert werden, damit die Fkt. is_game_won dynamisch funktioniert
+        # k muss initialisiert werden, damit die Fkt. is_game_won dynamisch funktioniert
         # -> evtl. später in andere Form initialisieren/in der Klasse Game nutzen
         self.k = 3
-        self.board = Board(m, n)
+        self.board = Board(m, n, k)
         self.player1 = Player("Player1", 1, 'X')
         self.player2 = Player("Player2", 2, 'O')
-        #Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
+        # Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
         self.current_player = self.player1
 
 
@@ -57,7 +57,7 @@ class Game:
         # Name des/der Startspieler:in wird ausgegeben
         print(f"The starting player is: {starting_player_in_game.name}\n")
 
-        #Startspieler:in wird als aktuelle Spieler:in gesetzt
+        # Startspieler:in wird als aktuelle Spieler:in gesetzt
         self.current_player = starting_player_in_game
 
         """
@@ -71,41 +71,45 @@ class Game:
         """
 
         # Beginn des Gameloops
-        while self.board.is_game_won_by(self.current_player.player_number, self.k) == False:
+        # has_won methode ?
+        while not self.board.is_game_won_by(self.current_player.player_number, self.k):
             # solange niemand gewonnen hat:
 
             # aktueller Spieler macht einen Spielzug
             print(f"{self.current_player.name}, it's your turn!")
 
-            #Player soll Reihe und Spalte eingeben
-            #Reihe und Spalte werden jew. -1 gerechnet für Indexierung im 2D-Array
+            # Player soll Reihe und Spalte eingeben
+            # Reihe und Spalte werden jew. -1 gerechnet für Indexierung im 2D-Array
             row = int(input("Enter row: ")) - 1
             col = int(input("Enter column: ")) - 1
 
-            #Prüfen, ob Reihe und Spalte gültig sind
-            #und so lange nach einer gültigen Eingabe verlangen
-            while self.board.is_move_valid(row, col) == False:
+            # Prüfen, ob Reihe und Spalte gültig sind
+            # und so lange nach einer gültigen Eingabe verlangen
+            while not self.board.is_move_valid(row, col):
                 print("Please enter a valid position!")
                 row = int(input("Enter row: ")) - 1
                 col = int(input("Enter column: ")) - 1
 
-            #Reihe und Spalte setzen
+            # Reihe und Spalte setzen
             self.current_player.make_move(self.board, row, col)
 
-            #Anzeigen des gesetzten Spielzugs
+            # Anzeigen des gesetzten Spielzugs
             self.board.display()
 
             # aktueller Spieler wird gewechselt, while-Schleife beginnt von vorne
             self.change_current_player()
 
         # das Spiel wurde gewonnen, Gewinner:in ermitteln
-        winner = self.board.has_won()
-        if winner != 0:
-            if winner == self.player1.player_number:
-                print(f"Congratulations {self.player1.name}! You have won!")
-            else:
-                print(f"Congratulations {self.player2.name}! You have won!")
-        else:
+
+        winner = self.board.has_won(self.k)
+
+        if winner == 1:
+            print(f"Congratulations {self.player1.name}! You have won!")
+
+        if winner == 2:
+            print(f"Congratulations {self.player2.name}! You have won!")
+
+        if winner == 0:
             print("This game ended in a draw. Try again!")
 
         # Spiel beenden
@@ -115,11 +119,11 @@ class Game:
 
 
         # -1 für Indexierung
-        #row = int(input("Enter row: ")) - 1
-        #col = int(input("Enter column: ")) - 1
-        #Startpieler:in soll ersten Zug machen
-        #starting_player_in_game.make_move(self.board, row, col)
-        #self.board.display()
+        # row = int(input("Enter row: ")) - 1
+        # col = int(input("Enter column: ")) - 1
+        # Startpieler:in soll ersten Zug machen
+        # starting_player_in_game.make_move(self.board, row, col)
+        # self.board.display()
 
         # nach jeder eingabe muss gecheckt werden, ob es einen Gewinner gibt
         # if self.board.has_won == 0: print("unentschieden") ...
@@ -133,16 +137,16 @@ class Game:
     """
     def start(self):
 
-        #Willkommensnachricht zum Start des Spiels
+        # Willkommensnachricht zum Start des Spiels
         print("Welcome to Break - a Game for Smart Minds", "\n")
 
-        #Spieler:innen geben sich Namen
+        # Spieler:innen geben sich Namen
         print("Player 1! ")
         self.player1.set_player_name()
         print("Player 2!")
         self.player2.set_player_name()
 
-        #Spielbeginn ankündigen
+        # Spielbeginn ankündigen
         print("YOUR GAME STARTS....NOW!")
 
         # Feld ausgeben

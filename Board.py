@@ -7,10 +7,11 @@ class Board:
     :param _m: Zeilenanzahl des Spielfelds
     :param _n: Spaltenanzahl des Spielfelds
     """
-    def __init__(self, m, n):
+    def __init__(self, m, n, k):
         self.m = m
         self.n = n
         self.fields = np.zeros((m, n), dtype=int)
+        self.k = k;
 
     """
     Funktion stellt das Spielfeld in einem nummerierten Raster dar
@@ -40,21 +41,24 @@ class Board:
     2 = Sieg Spieler 2
     :return: gibt an, wer gewonnen hat (s.o.)
     """
-    def has_won(self):
-        if self.is_game_won_by(self, player1.player_number, k) == True:
+    def has_won(self, k):
+        if self.is_game_won_by(self, 1, k):
             return 1
         else:
-            if self.is_game_won_by(self, player2.player_number, k) == True:
+            if self.is_game_won_by(self, 2, k):
                 return 2
             else:
                 # unentschieden, es muss überprüft werden, ob alle Felder belegt sind
-                return 0
+                for row in range(self.m):
+                    for col in range(self.n):
+                        if self.fields[row][col] != 0:
+                            return 0
 
     """
     Funktion, die zurückgibt, ob das Spiel gewonnen wurde
     :return: wurde das Spiel gewonnen (ja/nein)
     """
-    def is_game_won_by(self,  player_number, k):
+    def is_game_won_by(self, player_number, k):
 
         # Überprüfung in Zeilen & Spalten
         for row in range(self.m):
@@ -66,6 +70,7 @@ class Board:
                     count += 1
                     if count == k:
                         print(f"{player_number} hat das Spiel gewonnen!")
+                        return True
                 else:
                     # Zähler zurücksetzen bei Unterbrechung
                     count = 0
@@ -81,6 +86,7 @@ class Board:
                         count += 1
                         if count == k:
                             print(f"{player_number} hat das Spiel gewonnen!")
+                            return True
                     else:
                         count = 0
 
@@ -93,3 +99,4 @@ class Board:
             return True
         else:
             return False
+
