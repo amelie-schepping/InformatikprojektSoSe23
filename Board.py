@@ -70,19 +70,30 @@ class Board:
 
     def is_game_won_by(self, player_number):
 
-        # Überprüfung in Zeilen & Spalten
+        # Überprüfung in Zeilen
         for row in range(self.m):
+            # Zähler
+            count = 0
             for col in range(self.n):
-                # Zähler
-                count = 0
-                if self.fields[row][col] == player_number:
+                if self.fields[row, col] == player_number:
                     # Zähler wird hochgezählt, wenn player_number auftaucht
                     count += 1
                     if count == self.k:
-                        print(f"{player_number} hat das Spiel gewonnen!")
                         return True
+                        count = 0
                 else:
                     # Zähler zurücksetzen bei Unterbrechung
+                    count = 0
+
+        # Überprüfung in Spalten
+        for col in range(self.n):
+            count = 0
+            for row in range(self.m):
+                if self.fields[row, col] == player_number:
+                    count += 1
+                    if count == self.k:
+                        return True
+                else:
                     count = 0
 
         # Überprüfung in Diagonale
@@ -96,8 +107,23 @@ class Board:
                         count += 1
                         if count == self.k:
                             return True
+                            count = 0
                     else:
                         count = 0
+
+        # Überprüfung in umgekehrten Diagonalen
+        for row in range(self.m - self.k + 1):
+            for col in range(self.n - 1, self.k - 2, -1):
+                count = 0
+                for diagonal in range(self.k):
+                    if self.fields[row + diagonal, col - diagonal] == player_number:
+                        count += 1
+                        if count == self.k:
+                            return True
+                    else:
+                        count = 0
+
+        return False
 
     """
     Funktion prüft, ob ein Spielzug gültig ist
