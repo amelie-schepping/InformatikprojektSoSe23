@@ -4,6 +4,7 @@ from MyBot import MyBot
 
 import random
 
+
 class Game:
     """
     Konstruktor der Klasse Game
@@ -15,20 +16,20 @@ class Game:
     player1: Player 1
     player2: Player 2
     """
+
     def __init__(self, m, n, k):
-        # k muss initialisiert werden, damit die Fkt. is_game_won dynamisch funktioniert
-        # -> evtl. später in andere Form initialisieren/in der Klasse Game nutzen
-        self.k = 3
+        self.k = k
         self.board = Board(m, n, k)
         self.player1 = Player("Player1", 1, 'X')
         self.player2 = Player("Player2", 2, 'O')
+
         # Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
         self.current_player = self.player1
-
 
     """
     Funktion wechselt den/die aktuelle:n Spieler:in
     """
+
     def change_current_player(self):
         if self.player1 == self.current_player:
             self.current_player = self.player2
@@ -39,16 +40,17 @@ class Game:
     Funktion bestimmt den/die Startspieler:in zufällig
     :return: gibt Startspieler:in zurück
     """
+
     def determing_starting_player(self):
         starting_player = random.choice([self.player1, self.player2])
         return starting_player
 
-
     """
     Funktion regelt Spielablauf
     """
+
     def game_loop(self):
-        # vor dem eigentlichen gameloop wird das Spiel gestartet
+        # vor dem eigentlichen Gameloop wird das Spiel gestartet
         self.start()
 
         # Startspieler:in wird zufällig gewählt
@@ -60,35 +62,31 @@ class Game:
         # Startspieler:in wird als aktuelle Spieler:in gesetzt
         self.current_player = starting_player_in_game
 
-        """
-        Testcode
-        
-        print(f"der aktuelle Spieler ist: Player {self.current_player.player_number}")
-
-        # Testen des current players
-        self.change_current_player()
-        print(f"die akutelle Spielerin ist: Player {self.current_player.player_number}")
-        """
-
         # Beginn des Gameloops
-        # has_won methode ?
-        while not self.board.is_game_won_by(self.current_player.player_number, self.k):
+        while not self.board.is_game_won_by(self.current_player.player_number):
             # solange niemand gewonnen hat:
 
             # aktueller Spieler macht einen Spielzug
             print(f"{self.current_player.name}, it's your turn!")
 
-            # Player soll Reihe und Spalte eingeben
-            # Reihe und Spalte werden jew. -1 gerechnet für Indexierung im 2D-Array
-            row = int(input("Enter row: ")) - 1
-            col = int(input("Enter column: ")) - 1
-
             # Prüfen, ob Reihe und Spalte gültig sind
             # und so lange nach einer gültigen Eingabe verlangen
-            while not self.board.is_move_valid(row, col):
-                print("Please enter a valid position!")
-                row = int(input("Enter row: ")) - 1
-                col = int(input("Enter column: ")) - 1
+            while True:
+                try:
+                    row = int(input("Enter row: "))
+                    col = int(input("Enter column: "))
+
+                    if self.board.is_move_valid(row, col):
+                        row = row - 1
+                        col = col - 1
+
+                        break
+                    else:
+                        print("Please enter a valid position!")
+
+                except ValueError:
+                    print("Please enter a valid position!")
+                    continue
 
             # Reihe und Spalte setzen
             self.current_player.make_move(self.board, row, col)
@@ -96,12 +94,15 @@ class Game:
             # Anzeigen des gesetzten Spielzugs
             self.board.display()
 
+            # checken, ob es einen Gewinner gibt
+            if self.board.is_game_won_by(self.current_player.player_number):
+                break
+
             # aktueller Spieler wird gewechselt, while-Schleife beginnt von vorne
             self.change_current_player()
 
         # das Spiel wurde gewonnen, Gewinner:in ermitteln
-
-        winner = self.board.has_won(self.k)
+        winner = self.board.has_won(self.current_player.player_number)
 
         if winner == 1:
             print(f"Congratulations {self.player1.name}! You have won!")
@@ -117,24 +118,12 @@ class Game:
         # Ende: Spielfeld auf null setzen
         self.board = None
 
-
-        # -1 für Indexierung
-        # row = int(input("Enter row: ")) - 1
-        # col = int(input("Enter column: ")) - 1
-        # Startpieler:in soll ersten Zug machen
-        # starting_player_in_game.make_move(self.board, row, col)
-        # self.board.display()
-
-        # nach jeder eingabe muss gecheckt werden, ob es einen Gewinner gibt
-        # if self.board.has_won == 0: print("unentschieden") ...
-
-
-
     """
     Funktion startet das Spiel
     - die Spielenden geben sich ihre Namen
     - das Spielfeld wird angezeigt
     """
+
     def start(self):
 
         # Willkommensnachricht zum Start des Spiels

@@ -17,23 +17,7 @@ class Player:
     - setzt die Konsoleneingabe als Spielzug auf dem Board 
     """
     def make_move(self, board, row, col):
-        # checken, ob das Feld bereits belegt ist
-        # --> ausgelagert in is_move_valid() in Board
-        # --> dort ist es einfacher zu prüfen, dass kein höherer Wert
-        # als es Spielzeilen/spalten angegeben wird
-
-        # if board.fields[row][col] == 0:
-            # if board.is_move_valid(row, col):
         board.fields[row][col] = self.player_number
-            #else:
-                #print("Please enter a valid number!")
-
-        #else:
-            #print("This field is already taken!")
-
-        # input erst im gameloop abfragen
-        # Indexieren wie bei Schiffeversenken --> später in Array-Indexierung umwandeln
-
 
     """
     Funktion fordert Namenseingabe von Player über die Konsole
