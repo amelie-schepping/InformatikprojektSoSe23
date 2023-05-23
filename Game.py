@@ -53,10 +53,8 @@ class Game:
         # vor dem eigentlichen Gameloop wird das Spiel gestartet
         self.start()
 
-        # Startspieler:in wird zufällig gewählt
+        # Startspieler:in wird zufällig gewählt und auf Konsole ausgegeben
         starting_player_in_game = self.determing_starting_player()
-
-        # Name des/der Startspieler:in wird ausgegeben
         print(f"The starting player is: {starting_player_in_game.name}\n")
 
         # Startspieler:in wird als aktuelle Spieler:in gesetzt
@@ -71,21 +69,34 @@ class Game:
 
             # Prüfen, ob Reihe und Spalte gültig sind
             # und so lange nach einer gültigen Eingabe verlangen
+
+            # langfristig: in get_valid_move() auslagern!!!
+
+            # while-Schleife
             while True:
+                # Error-Handling mit try-except
                 try:
+                    # Eingabe fordern
                     row = int(input("Enter row: "))
                     col = int(input("Enter column: "))
 
+                    # prüfen, ob Eingabe gültig ist
                     if self.board.is_move_valid(row, col):
+                        # Eingabe ist gültig:
+                        # Eingabe in indexierte Array-Struktur umwandeln
                         row = row - 1
                         col = col - 1
-
+                        # und Schleife mit break verlassen
                         break
+                    # Eingabe ist nicht gültig, Schleife beginnt von vorne
                     else:
                         print("Please enter a valid position!")
 
+                # es gibt einen Fehler (ValueError), weil ein falscher Wert eingegeben wurde
                 except ValueError:
+                    # Spieler:in wird aufgefordert, eine gültige Position einzugeben
                     print("Please enter a valid position!")
+                    # Schleife beginnt von vorne
                     continue
 
             # Reihe und Spalte setzen
@@ -96,8 +107,10 @@ class Game:
 
             # checken, ob es einen Gewinner gibt
             if self.board.is_game_won_by(self.current_player.player_number):
+                # das Spiel wurde gewonnen, der Gameloop wird mit break verlassen
                 break
 
+            # das Spiel wurde noch nicht gewonnen
             # aktueller Spieler wird gewechselt, while-Schleife beginnt von vorne
             self.change_current_player()
 
@@ -117,6 +130,14 @@ class Game:
         input("\n ----------> Press Enter to end the game. <----------")
         # Ende: Spielfeld auf null setzen
         self.board = None
+
+    """
+    Funktion fordert einen gültigen Spielzug von current_player ein
+    :return: gibt einen gültigen Spielzug zurück
+    """
+    #def get_valid_move(self):
+
+
 
     """
     Funktion startet das Spiel
