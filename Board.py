@@ -134,13 +134,17 @@ class Board:
         row = row - 1
         col = col - 1
 
-        # conditionrows
-        # conditioncols
-        # conditionposition
+        # eingegebene Zeile muss >= 0 und < als Zeilenanzahl des Felds sein
+        condition_rows = 0 <= row < self.m
 
-        # abfrage, ob cinditions true oder false sind
+        # eingegebene Spalte muss >= 0 und < als Spaltenanzahl des Felds sein
+        condition_cols = 0 <= col < self.n
 
-        if (row >= 0) and (row < self.m) and (col >= 0) and (col < self.n) and (self.fields[row][col] == 0):
+        # eingegebene Position muss im Spielfeld liegen
+        condition_position = self.fields[row][col] == 0
+
+        # Abfrage, ob Bedingungen true oder false sind
+        if condition_rows and condition_cols and condition_position:
             return True
 
         else:

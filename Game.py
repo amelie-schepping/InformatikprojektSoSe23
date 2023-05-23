@@ -114,7 +114,7 @@ class Game:
             print("This game ended in a draw. Try again!")
 
         # Spiel beenden
-        input("\n Press Enter to end the game.")
+        input("\n ----------> Press Enter to end the game. <----------")
         # Ende: Spielfeld auf null setzen
         self.board = None
 
