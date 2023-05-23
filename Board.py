@@ -34,7 +34,11 @@ class Board:
             # Überschrift Zeilen
             print(row + 1, "\t", end='')
             for col in range(self.n):
-                print(self.fields[row][col], "\t", end='')
+                # Erzeugung eines neuen Arrays mit den entsprechenden Strings
+                # 1 in X, 2 in O, 0 in "[ ]"
+                fields_strings = np.where(self.fields == 1, "X", np.where(self.fields == 2, "O", "/"))
+                print(fields_strings[row][col], "\t", end='')
+
             print()
 
         print()
@@ -65,19 +69,19 @@ class Board:
         # oder wir fragen es einfach mti der neuen Methode direkt im gameloop ab
         # (hatten wir bei 5Crush glaube ich auch im Gameloop)
         else:
-            #prüfen, ob Spielfeld voll ist
+            # prüfen, ob Spielfeld voll ist
             if self.is_board_full():
                 # wenn ja: Spiel ist unentschieden
                 return 0
             else:
                 return "Das Spiel ist noch nicht entschieden."
 
-
     """
     Funktion prüft, ob das Spielfeld voll ist, d.h.
     jedes Feld im Spielfeld ist mit einem Symbol besetzt
     :return: ja, Spielfeld ist voll/nein, Spielfeld ist nicht voll
     """
+
     def is_board_full(self):
 
         # doppelte Schleife durch 2D-Array/Spielfeld
@@ -90,10 +94,6 @@ class Board:
 
                 else:
                     return False
-
-
-
-
 
     """
     Funktion gibt zurück, ob ein Player das Spiel gewonnen hat

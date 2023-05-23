@@ -40,8 +40,7 @@ class Game:
     Funktion wandelt Player.player_number in Player.symbol um
     """
 
-    #def convert_to_symbol(self):
-
+    # def convert_to_symbol(self):
 
     """
     Funktion bestimmt den/die Startspieler:in zufällig
@@ -112,8 +111,6 @@ class Game:
 
             # player_number in Symbol umwandeln
 
-
-
             # Anzeigen des gesetzten Spielzugs
             self.board.display()
 
@@ -147,9 +144,7 @@ class Game:
     Funktion fordert einen gültigen Spielzug von current_player ein
     :return: gibt einen gültigen Spielzug zurück
     """
-    #def get_valid_move(self):
-
-
+    # def get_valid_move(self):
 
     """
     Funktion startet das Spiel
@@ -160,13 +155,25 @@ class Game:
     def start(self):
 
         # Willkommensnachricht zum Start des Spiels
-        print("---Welcome to Break - a Game for Smart Minds---", "\n")
+        print("Welcome to Break - a Game for Smart Minds", "\n")
 
-        # Spieler:innen geben sich Namen
-        print("Player 1! ")
-        self.player1.set_player_name()
-        print("Player 2!")
-        self.player2.set_player_name()
+        # Spiel Modus-Abfrage
+        print("GAME MODE")
+        print("-- 1: Player vs Player -- ")
+        print("-- 2: Player vs Bot (easy) -- ")
+        print("-- 3: Player vs Player (hard) -- ")
+
+        ans = int(input("Enter your choice: "))
+
+        if ans == 1:
+            # Spieler:innen geben sich Namen
+            print("Player 1! ")
+            self.player1.set_player_name()
+            print("Player 2!")
+            self.player2.set_player_name()
+
+        if ans == 2:
+            self.current_player = MyBot(3, '!')
 
         # Spielbeginn ankündigen
         print("YOUR GAME STARTS....NOW!")
