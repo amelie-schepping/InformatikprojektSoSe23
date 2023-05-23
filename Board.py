@@ -6,15 +6,16 @@ class Board:
     Konstruktor der Klasse Board
     - initialisiert die Instanzvariablen des Spielfelds
     - erstellt ein leeres Spielfeld
-    :param _m: Zeilenanzahl des Spielfelds
-    :param _n: Spaltenanzahl des Spielfelds
+    :param m: Zeilenanzahl des Spielfelds
+    :param n: Spaltenanzahl des Spielfelds
+    :param k: Gewinnbedingung (Anzahl von Treffern in einer Reihe)
     """
 
     def __init__(self, m, n, k):
         self.m = m
         self.n = n
-        self.fields = np.zeros((m, n), dtype=int)
         self.k = k
+        self.fields = np.zeros((m, n), dtype=int)
 
     """
     Funktion stellt das Spielfeld in einem nummerierten Raster dar
@@ -43,6 +44,7 @@ class Board:
     0 = unentschieden
     1 = Sieg Spieler 1
     2 = Sieg Spieler 2
+    :param current_player_number: Spielernummer des Gewinners
     :return: gibt an, wer gewonnen hat (s.o.)
     """
 
@@ -94,8 +96,9 @@ class Board:
 
 
     """
-    Funktion, die zurückgibt, ob das Spiel gewonnen wurde
-    :return: wurde das Spiel gewonnen (ja/nein)
+    Funktion gibt zurück, ob ein Player das Spiel gewonnen hat
+    :param player_number: Nummer von Player, für den/die geprüft wird, ob er/sie gewonnen hat
+    :return: der angegeben Player hat das Spiel gewonnen (ja/nein)
     """
 
     def is_game_won_by(self, player_number):
@@ -159,6 +162,8 @@ class Board:
     Funktion prüft, ob ein Spielzug gültig ist, d.h.
     - ob die eingegebene Position im Spielfeld liegt
     - ob die eingegebene Position bereits belegt ist
+    :param row: Zeile der eingegebenen Position
+    :param col: Spalte der eingegebenen Position
     :return: gültig (ja/nein)
     """
 

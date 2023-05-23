@@ -1,10 +1,10 @@
 class Player:
     """
     Konstruktor der Klasse Player
-    - initialisiert folgende Instanzvariablen
-    name: Name von Player
-    player_number: Player 1 oder 2
-    symbol: Symbol des Players für die Spielzüge
+    - initialisiert Instanzvariablen eines Players
+    :param name: Name von Player
+    :param player_number: Nummer von Player
+    :param symbol: Symbol von Player für die Spielzüge
     """
     def __init__(self, name, player_number, symbol):
         self.name = name
@@ -12,9 +12,10 @@ class Player:
         self.symbol = symbol
 
     """
-    Funktion für einen Spielzug eines Players
-    - fordert eine Eingabe des/der Players über die Konsole ein
-    - setzt die Konsoleneingabe als Spielzug auf dem Board 
+    Funktion setzt einen Spielzug
+    :param board: Spielfeld, auf dem der Spielzug gesetzt wird
+    :param row: Zeile des zu setzenden Spielzugs
+    :param col: Spalte des zu setzenden Spielzugs
     """
     def make_move(self, board, row, col):
         board.fields[row][col] = self.player_number

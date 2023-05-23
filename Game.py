@@ -9,12 +9,12 @@ class Game:
     """
     Konstruktor der Klasse Game
     - setzt die Instanzvariablen des Games
-    m: Zeile
-    n: Spalte
-    k: Gewinnbedingung (Anzahl eines Symbols in einer Reihe für einen Gewinn)
     board: Spielfeld
     player1: Player 1
     player2: Player 2
+    :param m: Zeilen des Spielfelds
+    :param n: Spalten des Spielfelds
+    :param k: Gewinnbedingung (Anzahl eines Symbols in einer Reihe für einen Gewinn)
     """
 
     def __init__(self, m, n, k):
@@ -35,6 +35,13 @@ class Game:
             self.current_player = self.player2
         else:
             self.current_player = self.player1
+
+    """
+    Funktion wandelt Player.player_number in Player.symbol um
+    """
+
+    #def convert_to_symbol(self):
+
 
     """
     Funktion bestimmt den/die Startspieler:in zufällig
@@ -71,6 +78,7 @@ class Game:
             # und so lange nach einer gültigen Eingabe verlangen
 
             # langfristig: in get_valid_move() auslagern!!!
+            # ODER: in make_move?!!!!!!!!
 
             # while-Schleife
             while True:
@@ -101,6 +109,10 @@ class Game:
 
             # Reihe und Spalte setzen
             self.current_player.make_move(self.board, row, col)
+
+            # player_number in Symbol umwandeln
+
+
 
             # Anzeigen des gesetzten Spielzugs
             self.board.display()
@@ -148,7 +160,7 @@ class Game:
     def start(self):
 
         # Willkommensnachricht zum Start des Spiels
-        print("Welcome to Break - a Game for Smart Minds", "\n")
+        print("---Welcome to Break - a Game for Smart Minds---", "\n")
 
         # Spieler:innen geben sich Namen
         print("Player 1! ")
