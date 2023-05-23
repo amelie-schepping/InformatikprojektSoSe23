@@ -126,7 +126,9 @@ class Board:
         return False
 
     """
-    Funktion prüft, ob ein Spielzug gültig ist
+    Funktion prüft, ob ein Spielzug gültig ist, d.h.
+    - ob die eingegebene Position im Spielfeld liegt
+    - ob die eingegebene Position bereits belegt ist
     :return: gültig (ja/nein)
     """
 
@@ -134,18 +136,20 @@ class Board:
         row = row - 1
         col = col - 1
 
-        # eingegebene Zeile muss >= 0 und < als Zeilenanzahl des Felds sein
+        # eingegebene Zeile muss im Spielfeld liegen
         condition_rows = 0 <= row < self.m
 
-        # eingegebene Spalte muss >= 0 und < als Spaltenanzahl des Felds sein
+        # eingegebene Spalte muss im Spielfeld liegen
         condition_cols = 0 <= col < self.n
 
-        # eingegebene Position muss im Spielfeld liegen
+        # eingegebene Position darf noch nicht belegt sein
         condition_position = self.fields[row][col] == 0
 
         # Abfrage, ob Bedingungen true oder false sind
         if condition_rows and condition_cols and condition_position:
             return True
 
+        # falls eine der Bedingungen nicht true ist,
+        # ist der Spielzug ungültig
         else:
             return False
