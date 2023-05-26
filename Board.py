@@ -57,24 +57,15 @@ class Board:
 
     def has_won(self, current_player_number):
 
-        # brauchen wir diese Zeile Code überhaupt??
+        # noch einmal überprüfen, ob es einen gewinner gibt
+        if self.is_game_won_by(current_player_number):
+            if current_player_number == 1:
+                return 1
 
-        # self.is_game_won_by(current_player_number)
-        if current_player_number == 1:
-            return 1
-
-        if current_player_number == 2:
-            return 2
-
+            if current_player_number == 2:
+                return 2
         else:
             return 0
-
-        # unentschieden: es muss überprüft werden, ob alle Felder belegt sind
-        # --> müssen wir das nicht in der is_game_won_by() überprüfen?
-        # --> sonst zerschießt uns ein unentschieden den Gameloop, oder?
-        # oder wir fragen es einfach mti der neuen Methode direkt im gameloop ab
-        # (hatten wir bei 5Crush glaube ich auch im Gameloop)
-        # wenn weder Spieler 1 noch Spieler 2 gewonnen haben: Spiel ist unentschieden
 
     """
     Funktion prüft, ob das Spielfeld voll ist, d.h.

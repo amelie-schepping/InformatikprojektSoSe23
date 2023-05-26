@@ -84,7 +84,9 @@ class Game:
                 # das Spiel wurde gewonnen, der Gameloop wird mit break verlassen
                 break
 
+            # checken, ob das Board voll ist
             if self.board.is_board_full():
+                # das Spielfeld ist voll, der Gameloop wird mit break verlassen
                 break
 
             # das Spiel wurde noch nicht gewonnen
