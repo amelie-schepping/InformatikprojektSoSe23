@@ -69,45 +69,10 @@ class Game:
         # Beginn des Gameloops
         while not self.board.is_game_won_by(self.current_player.player_number):
             # solange niemand gewonnen hat:
-
-            # aktueller Spieler macht einen Spielzug
             print(f"{self.current_player.name}, it's your turn!")
 
-            # Prüfen, ob Reihe und Spalte gültig sind
-            # und so lange nach einer gültigen Eingabe verlangen
-
-            # langfristig: in get_valid_move() auslagern!!!
-            # ODER: in make_move?!!!!!!!!
-
-            # while-Schleife
-            while True:
-                # Error-Handling mit try-except
-                try:
-                    # Eingabe fordern
-                    row = int(input("Enter row: "))
-                    col = int(input("Enter column: "))
-
-                    # prüfen, ob Eingabe gültig ist
-                    if self.board.is_move_valid(row, col):
-                        # Eingabe ist gültig:
-                        # Eingabe in indexierte Array-Struktur umwandeln
-                        row = row - 1
-                        col = col - 1
-                        # und Schleife mit break verlassen
-                        break
-                    # Eingabe ist nicht gültig, Schleife beginnt von vorne
-                    else:
-                        print("Please enter a valid position!")
-
-                # es gibt einen Fehler (ValueError), weil ein falscher Wert eingegeben wurde
-                except ValueError:
-                    # Spieler:in wird aufgefordert, eine gültige Position einzugeben
-                    print("Please enter a valid position!")
-                    # Schleife beginnt von vorne
-                    continue
-
-            # Reihe und Spalte setzen
-            self.current_player.make_move(self.board, row, col)
+            # aktueller Spieler macht einen Spielzug
+            self.current_player.make_move(self.board)
 
             # player_number in Symbol umwandeln
 
@@ -117,6 +82,9 @@ class Game:
             # checken, ob es einen Gewinner gibt
             if self.board.is_game_won_by(self.current_player.player_number):
                 # das Spiel wurde gewonnen, der Gameloop wird mit break verlassen
+                break
+
+            if self.board.is_board_full():
                 break
 
             # das Spiel wurde noch nicht gewonnen
@@ -161,8 +129,10 @@ class Game:
         print("GAME MODE")
         print("-- 1: Player vs Player -- ")
         print("-- 2: Player vs Bot (easy) -- ")
-        print("-- 3: Player vs Player (hard) -- ")
+        print("-- 3: Player vs Bot (hard) -- ")
+        print("-- 4: Bot vs Bot  -- ")
 
+        # Eingabe muss valid sein: Value Error Exception!! catchen
         ans = int(input("Enter your choice: "))
 
         if ans == 1:
@@ -173,7 +143,16 @@ class Game:
             self.player2.set_player_name()
 
         if ans == 2:
-            self.current_player = MyBot(3, '!')
+            # Player 1
+            print("Player 1! ")
+            self.player1.set_player_name()
+
+            # Player 2 ist Bot
+            self.player2 = MyBot("MyBot", 2, 'O')
+
+        if ans == 4:
+            self.player1 = MyBot("MyBot 1", 1, 'X')
+            self.player2 = MyBot("MyBot 2", 2, 'O')
 
         # Spielbeginn ankündigen
         print("YOUR GAME STARTS....NOW!")

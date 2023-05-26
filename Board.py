@@ -35,9 +35,12 @@ class Board:
             print(row + 1, "\t", end='')
             for col in range(self.n):
                 # Erzeugung eines neuen Arrays mit den entsprechenden Strings
+                # das neue Array 'überlagert' das alte Array, löscht das alte Array aber nicht
                 # 1 in X, 2 in O, 0 in "[ ]"
-                fields_strings = np.where(self.fields == 1, "X", np.where(self.fields == 2, "O", "/"))
-                print(fields_strings[row][col], "\t", end='')
+                # fields_strings = np.where(self.fields == 1, "X", np.where(self.fields == 2, "O", "/"))
+                # print(fields_strings[row][col], "\t", end='')
+
+                print(self.fields[row][col], "\t", end='')
 
             print()
 
@@ -55,26 +58,23 @@ class Board:
     def has_won(self, current_player_number):
 
         # brauchen wir diese Zeile Code überhaupt??
-        self.is_game_won_by(current_player_number)
 
+        # self.is_game_won_by(current_player_number)
         if current_player_number == 1:
             return 1
 
         if current_player_number == 2:
             return 2
 
+        else:
+            return 0
+
         # unentschieden: es muss überprüft werden, ob alle Felder belegt sind
         # --> müssen wir das nicht in der is_game_won_by() überprüfen?
         # --> sonst zerschießt uns ein unentschieden den Gameloop, oder?
         # oder wir fragen es einfach mti der neuen Methode direkt im gameloop ab
         # (hatten wir bei 5Crush glaube ich auch im Gameloop)
-        else:
-            # prüfen, ob Spielfeld voll ist
-            if self.is_board_full():
-                # wenn ja: Spiel ist unentschieden
-                return 0
-            else:
-                return "Das Spiel ist noch nicht entschieden."
+        # wenn weder Spieler 1 noch Spieler 2 gewonnen haben: Spiel ist unentschieden
 
     """
     Funktion prüft, ob das Spielfeld voll ist, d.h.
@@ -89,11 +89,10 @@ class Board:
             for col in range(self.n):
 
                 # für jede Position prüfen, ob Feld belegt ist (also ungleich 0)
-                if self.fields[row][col] != 0:
-                    return True
-
-                else:
+                if self.fields[row, col] == 0:
                     return False
+
+        return True
 
     """
     Funktion gibt zurück, ob ein Player das Spiel gewonnen hat
@@ -102,7 +101,6 @@ class Board:
     """
 
     def is_game_won_by(self, player_number):
-
         # Überprüfung in Zeilen
         for row in range(self.m):
             # Zähler

@@ -15,8 +15,8 @@ class MyBot(Player):
     symbol: Symbol des Players für die Spielzüge
     """
 
-    def __init__(self, player_number, symbol):
-        self.name = "MyBot"
+    def __init__(self, name, player_number, symbol):
+        self.name = name
         self.player_number = player_number
         self.symbol = symbol
 
@@ -32,6 +32,6 @@ class MyBot(Player):
             row = np.random.randint(board.m)
             col = np.random.randint(board.n)
 
-            if board.fields[row][col] != 0:
+            if board.fields[row][col] == 0:
                 board.fields[row][col] = self.player_number
                 break
