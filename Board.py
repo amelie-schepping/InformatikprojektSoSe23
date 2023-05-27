@@ -19,6 +19,9 @@ class Board:
 
     """
     Funktion stellt das Spielfeld in einem nummerierten Raster dar
+    und erstellt ein 'zweites' Spielfeld mit Symbolen, das das erste Spielfeld
+    mit den Zahlen überlagert (der Code arbeitet weiterhin mit player_number, 
+    nur die Darstellung/das darüber liegende Display wird mit Symbolen angezeigt) 
     """
 
     def display(self):
@@ -51,19 +54,23 @@ class Board:
     0 = unentschieden
     1 = Sieg Spieler 1
     2 = Sieg Spieler 2
-    :param current_player_number: Spielernummer des Gewinners
+    :param current_player_number: Spielernummer des Spielers, der den letzten Zug gesetzt hat
     :return: gibt an, wer gewonnen hat (s.o.)
     """
 
     def has_won(self, current_player_number):
+        # Methode has_won wird aufgerufen, falls das Spielfeld voll ist
+        # oder falls es eine Gewinnerin gibt
 
-        # noch einmal überprüfen, ob es einen gewinner gibt
+        # daher als erstes noch einmal überprüfen, ob es einen Gewinner gibt
         if self.is_game_won_by(current_player_number):
+            # der Spieler, der als letztes dran war, hat gewonnen
             if current_player_number == 1:
                 return 1
 
             if current_player_number == 2:
                 return 2
+        # es gibt keinen Gewinner, d. h. das Feld ist voll
         else:
             return 0
 
@@ -79,10 +86,12 @@ class Board:
         for row in range(self.m):
             for col in range(self.n):
 
-                # für jede Position prüfen, ob Feld belegt ist (also ungleich 0)
+                # für jede Position prüfen, ob das Feld unbelegt ist (also gleich 0)
                 if self.fields[row, col] == 0:
+                    # falls mind. ein Feld unbelegt: nein, das Spielfeld ist noch nicht voll
                     return False
-
+        # da, wie oben geprüft, kein Feld mehr frei, müssen alle Felder belegt sein
+        # ja, das Spielfeld ist voll
         return True
 
     """

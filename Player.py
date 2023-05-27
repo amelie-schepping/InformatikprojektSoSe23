@@ -46,7 +46,7 @@ class Player:
                 print("Please enter a valid position!")
                 # Schleife beginnt von vorne
                 continue
-
+        # die nun gültige Eingabe wird als Spielzug gesetzt
         board.fields[row][col] = self.player_number
 
     """
@@ -56,4 +56,5 @@ class Player:
 
     def set_player_name(self):
         new_name = input("Type in your name: ")
+        # prüfen, ob Name gültig ist (mind eine Zahl oder ein Buchstabe oder ein Zeichen)
         self.name = new_name
