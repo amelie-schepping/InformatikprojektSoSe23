@@ -171,11 +171,11 @@ class Game:
             self.player1.set_player_name()
 
             # Player 2 wird automatisch als (strategischer) Bot gesetzt
-            self.player2 = MyBot("MyBot", 2, 'O')
+            self.player2 = MySmartBot("MySmartBot", 2, 'O')
 
         # Spielmodus 4 (Bot vs. Bot)
         if ans == 4:
-            # beide Player werden automatisch als Bots gesetzt
+            # beide Player werden automatisch als (strategische) Bots gesetzt
             self.player1 = MyBot("MyBot 1", 1, 'X')
             self.player2 = MyBot("MyBot 2", 2, 'O')
 

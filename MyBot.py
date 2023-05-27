@@ -21,7 +21,7 @@ class MyBot(Player):
         self.symbol = symbol
 
     """
-    Funktion für den Spielzug des Bots
+    Funktion für den Zufallsspielzug des Bots
     """
 
     def make_move(self, board):
