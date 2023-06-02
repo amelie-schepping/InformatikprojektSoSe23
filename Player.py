@@ -32,10 +32,11 @@ class Player:
                 if board.is_move_valid(row, col):
                     # Eingabe ist gültig:
                     # Eingabe in indexierte Array-Struktur umwandeln
-                    row = row - 1
-                    col = col - 1
-                    # und Schleife mit break verlassen
-                    break
+                    if row and col != "":
+                        row = row - 1
+                        col = col - 1
+                        # und Schleife mit break verlassen
+                        break
                 # Eingabe ist nicht gültig, Schleife beginnt von vorne
                 else:
                     print("Please enter a valid position!")

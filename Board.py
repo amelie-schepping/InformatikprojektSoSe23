@@ -28,7 +28,7 @@ class Board:
         print()
         # Überschrift Spalten
         print("\t", end='')
-        for row in range(self.m):
+        for row in range(self.n):
             print(row + 1, "\t", end='')
 
         print()
