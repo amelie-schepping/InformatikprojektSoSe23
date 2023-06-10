@@ -1,5 +1,6 @@
 from Player import Player
 import numpy as np
+import random
 
 """
 Die Klasse MySmartBot ist eine Subklasse von der Klasse Player
@@ -25,31 +26,32 @@ class MySmartBot(Player):
     """
 
     def make_move(self, board):
-        # Mitte errechnen
-        # m Zeile
-        # n Spalten
 
+        # Erstelle eine Liste aller Positionen auf dem Spielfeld
+        positions = []
+        for row in range(board.m):
+            for col in range(board.n):
+                positions.append((row, col))
+
+        # Berechne die Mitte des Spielfelds
         rowMid = board.m // 2
         colMid = board.n // 2
 
-        # wenn Mitte frei ist, setze in die Mitte
-        if board.fields[rowMid][colMid] == 0:
-            board.fields[rowMid][colMid] = self.player_number
+        # fügt die Mitte 15-mal der Liste aller Positionen hinzu, um die Wahrscheinlichkeit zu erhöhen, dass er in die Mitte setzt
+        mid = (rowMid, colMid)
+        positions.extend([mid] * 15)
 
-        # hier evtl. Fallunterscheidung, wenn es keine eindeutige Mitte gibt
+        # Wähle zufällig eine Position aus der Liste aller Positionen
+        random_position = random.choice(positions)
 
-        # wenn nicht random Zug
-        else:
-            # generiert so lange Zufallszahlen, bis eine gültige gefunden wurde
-            while True:
-                # random.randint erzeugt Zufallszahlen von 0 bis (exklusive) board.m (Zeilen)
-                row = np.random.randint(board.m)
-                # random.randint erzeugt Zufallszahlen von 0 bis (exklusive) board.n (Spalten)
-                col = np.random.randint(board.n)
+        row = random_position[0]
+        col = random_position[1]
 
-                # prüft, ob Zufallsposition noch nicht belegt ist
-                if board.fields[row][col] == 0:
-                    # setzt Zufallsposition auf freies Feld
-                    board.fields[row][col] = self.player_number
-                    # beendet Schleife, da Bot seinen Zug nun gesetzt hat
-                    break
+        # setze den Zug
+        if board.fields[row][col] == 0:
+            board.fields[row][col] = self.player_number
+
+        # Fallunterscheidung, wenn es keine eindeutige Mitte gibt?
+
+        # Überlegung 1: SmartBot soll erkennen, wenn der Gegner kurz davor ist zu gewinnen und dann den Zug verhindern (Verteidigung)
+        # Überlegung 2: SmartBot sollte selbst versuchen in einer geraden Linie zu setzen (Angriff)
