@@ -37,21 +37,41 @@ class MySmartBot(Player):
         rowMid = board.m // 2
         colMid = board.n // 2
 
-        # fügt die Mitte 15-mal der Liste aller Positionen hinzu, um die Wahrscheinlichkeit zu erhöhen, dass er in die Mitte setzt
-        mid = (rowMid, colMid)
-        positions.extend([mid] * 15)
+        # versuche zunächst in die Mitte zu setzen
+        if board.fields[rowMid][colMid] == 0:
+            board.fields[rowMid][colMid] = self.player_number
 
-        # Wähle zufällig eine Position aus der Liste aller Positionen
-        random_position = random.choice(positions)
+        # ansonsten "zufällige Position", wobei "smarte" Positionen größer gewichtet werden
+        else:
+            while True:
+                # Fallunterscheidung: hat der Bot in der Mitte gesetzt?
+                # von der Mitte aus eine gerade Linie setzen
+                smart_positions = []
 
-        row = random_position[0]
-        col = random_position[1]
+                # smart_positions für horizontale Linien
+                for col in range(colMid - (board.k - 1), colMid + board.k):
+                    if col >= 0 and col < board.n:  # Überprüfung der Gültigkeit des Spaltenindex
+                        smart_positions.append((rowMid, col))
 
-        # setze den Zug
-        if board.fields[row][col] == 0:
-            board.fields[row][col] = self.player_number
+                # smart_positions für vertikale Linien
+                for row in range(rowMid - (board.k - 1), rowMid + board.k):
+                    if row >= 0 and row < board.m:  # Überprüfung der Gültigkeit des Zeilenindex
+                        smart_positions.append((row, colMid))
+
+                merged_list = positions + (smart_positions * 100)
+
+                random_position = random.choice(merged_list)
+
+                row = random_position[0]
+                col = random_position[1]
+
+                # setze den Zug
+                if board.fields[row][col] == 0:
+                    board.fields[row][col] = self.player_number
+                    return
 
         # Fallunterscheidung, wenn es keine eindeutige Mitte gibt?
 
         # Überlegung 1: SmartBot soll erkennen, wenn der Gegner kurz davor ist zu gewinnen und dann den Zug verhindern (Verteidigung)
         # Überlegung 2: SmartBot sollte selbst versuchen in einer geraden Linie zu setzen (Angriff)
+        # mit Schleife arbeiten? was wenn, Feld belegt ist?
