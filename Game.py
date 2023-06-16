@@ -206,8 +206,3 @@ class Game:
 
         # Feld ausgeben
         self.board.display()
-
-        # der Bot muss wissen, welcher Game Mode vom Mensch eingegeben wurde
-        # deswegen geben wir hier die Antwort (=answer) zurück, um in der Klasse
-        # MyBot in der Methode make_move darauf zugreifen zu können
-        return ans
