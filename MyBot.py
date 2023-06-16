@@ -28,21 +28,28 @@ class MyBot(Player):
         """
         Spielzug abhängig vom GameMode
         """
-        # um den Game Mode abfragen zu können, brauchen wir eine Instanz der Klasse Game
-        from Game import Game
-        game_instance = Game()
-        # Variable speichert den Rückgabewert der Methode start() aus der Klasse Game
+
+        # gammode ermitteln
+        gamemode = int(input("Enter 1 for random_bot, enter 2 for smart_bot: "))
+
+
         # -> Eingabe, welcher Spielmodus ausgewählt wurde
-        gamemode = game_instance.start()
+
 
         # if game mode 1 --> Zufallszug
-        if gamemode == 2:
-            self.random_move()
+        if gamemode == 1:
+            self.random_move(board)
 
-        if gamemode == 3:
+        if gamemode == 2:
         #if game mode 2 --> makemove aus MySmartBot
-            # Prioritätenliste: offensiver Move; wenn offensiver Move nicht möglich, defensiver move usw.
-            # usw
+            # 1. Methode aufrufen, die KReuz in mitte setzt
+            # 2. Methode für offensiven Move --> neben Mitte? --> diagnoal fehlt noch!
+            # 3. Methode für defensiven Move --> 2er/3er Kettene ermitteln --> advanced: xxoxx erkennen als fast gewonnen
+
+
+
+
+
         #folgendes soll langfristig in eigene MEthode
 
             # Erstelle eine Liste aller Positionen auf dem Spielfeld
