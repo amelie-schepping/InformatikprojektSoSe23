@@ -1,25 +1,27 @@
 class Player:
-    """
-    Konstruktor der Klasse Player
-    - initialisiert Instanzvariablen eines Players
-    :param name: Name von Player
-    :param player_number: Nummer von Player
-    :param symbol: Symbol von Player für die Spielzüge
-    """
+
 
     def __init__(self, name, player_number, symbol):
+        """
+        Konstruktor der Klasse Player
+        - initialisiert Instanzvariablen eines Players
+        :param name: Name von Player
+        :param player_number: Nummer von Player
+        :param symbol: Symbol von Player für die Spielzüge
+        """
         self.name = name
         self.player_number = player_number
         self.symbol = symbol
 
-    """
-    Funktion setzt einen Spielzug
-    :param board: Spielfeld, auf dem der Spielzug gesetzt wird
-    :param row: Zeile des zu setzenden Spielzugs
-    :param col: Spalte des zu setzenden Spielzugs
-    """
+
 
     def make_move(self, board):
+        """
+        Funktion setzt einen Spielzug
+        :param board: Spielfeld, auf dem der Spielzug gesetzt wird
+        :param row: Zeile des zu setzenden Spielzugs
+        :param col: Spalte des zu setzenden Spielzugs
+        """
         # while-Schleife
         while True:
             # Error-Handling mit try-except
@@ -30,9 +32,10 @@ class Player:
 
                 # prüfen, ob Eingabe gültig ist
                 if board.is_move_valid(row, col):
-                    # Eingabe ist gültig:
-                    # Eingabe in indexierte Array-Struktur umwandeln
+                    # Eingabe ist gültig
+                    # prüfen, dass Eingabe != Enter/nicht leer ist
                     if row and col != "":
+                        # Eingabe in indexierte Array-Struktur umwandeln
                         row = row - 1
                         col = col - 1
                         # und Schleife mit break verlassen
@@ -50,12 +53,13 @@ class Player:
         # die nun gültige Eingabe wird als Spielzug gesetzt
         board.fields[row][col] = self.player_number
 
-    """
-    Funktion fordert Namenseingabe von Player über die Konsole
-    und setzt diesen als Namen des Players
-    """
+
 
     def set_player_name(self):
+        """
+        Funktion fordert Namenseingabe von Player über die Konsole
+        und setzt diesen als Namen des Players
+        """
         new_name = input("Type in your name: ")
         # prüfen, ob Name gültig ist (mind eine Zahl oder ein Buchstabe oder ein Zeichen)
         self.name = new_name

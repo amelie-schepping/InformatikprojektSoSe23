@@ -75,3 +75,8 @@ class MySmartBot(Player):
         # Überlegung 1: SmartBot soll erkennen, wenn der Gegner kurz davor ist zu gewinnen und dann den Zug verhindern (Verteidigung)
         # Überlegung 2: SmartBot sollte selbst versuchen in einer geraden Linie zu setzen (Angriff)
         # mit Schleife arbeiten? was wenn, Feld belegt ist?
+
+        # random_seat setzen --> macht immer dieselben Zufallszüge --> um Zufall zu bergenzen
+        # Bot vs. Bot random, wer anfängt
+
+        # statistiken: Schleife mit gamemode 3 100 mal laufen lassen und ergebnisse rausschreiben --> damit evtl in

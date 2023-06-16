@@ -7,18 +7,19 @@ import random
 
 
 class Game:
-    """
-    Konstruktor der Klasse Game
-    - setzt die Instanzvariablen des Games
-    board: Spielfeld
-    player1: Player 1
-    player2: Player 2
-    :param m: Zeilen des Spielfelds
-    :param n: Spalten des Spielfelds
-    :param k: Gewinnbedingung (Anzahl eines Symbols in einer Reihe für einen Gewinn)
-    """
+
 
     def __init__(self, m, n, k):
+        """
+        Konstruktor der Klasse Game
+        - setzt die Instanzvariablen des Games
+        board: Spielfeld
+        player1: Player 1
+        player2: Player 2
+        :param m: Zeilen des Spielfelds
+        :param n: Spalten des Spielfelds
+        :param k: Gewinnbedingung (Anzahl eines Symbols in einer Reihe für einen Gewinn)
+        """
         self.k = k
         self.board = Board(m, n, k)
         self.player1 = Player("Player1", 1, 'X')
@@ -27,11 +28,12 @@ class Game:
         # Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
         self.current_player = self.player1
 
-    """
-    Funktion wechselt den/die aktuelle:n Spieler:in
-    """
+
 
     def change_current_player(self):
+        """
+        Funktion wechselt den/die aktuelle:n Spieler:in
+        """
         if self.player1 == self.current_player:
             self.current_player = self.player2
         else:
@@ -43,20 +45,22 @@ class Game:
 
     # def convert_to_symbol(self):
 
-    """
-    Funktion bestimmt den/die Startspieler:in zufällig
-    :return: gibt Startspieler:in zurück
-    """
+
 
     def determing_starting_player(self):
+        """
+           Funktion bestimmt den/die Startspieler:in zufällig
+           :return: gibt Startspieler:in zurück
+        """
         starting_player = random.choice([self.player1, self.player2])
         return starting_player
 
-    """
-    Funktion regelt Spielablauf
-    """
+
 
     def game_loop(self):
+        """
+        Funktion regelt Spielablauf
+        """
         # vor dem eigentlichen Gameloop wird das Spiel gestartet
         self.start()
 
@@ -115,19 +119,20 @@ class Game:
         # Ende: Spielfeld auf null setzen
         self.board = None
 
-    """
-    Funktion fordert einen gültigen Spielzug von current_player ein
-    :return: gibt einen gültigen Spielzug zurück
-    """
-    # def get_valid_move(self):
 
+    # def get_valid_move(self):
     """
-    Funktion startet das Spiel
-    - die Spielenden geben sich ihre Namen
-    - das Spielfeld wird angezeigt
+       Funktion fordert einen gültigen Spielzug von current_player ein
+       :return: gibt einen gültigen Spielzug zurück
     """
+
 
     def start(self):
+        """
+        Funktion startet das Spiel
+        - die Spielenden geben sich ihre Namen
+        - das Spielfeld wird angezeigt
+        """
 
         # Willkommensnachricht zum Start des Spiels
         print("Welcome to Break - a Game for Smart Minds", "\n")
@@ -185,3 +190,8 @@ class Game:
 
         # Feld ausgeben
         self.board.display()
+
+        # der Bot muss wissen, welcher Game Mode vom Mensch eingegeben wurde
+        # deswegen geben wir hier die Antwort (=answer) zurück, um in der Klasse
+        # MyBot in der Methode make_move darauf zugreifen zu können
+        return ans

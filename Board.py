@@ -2,29 +2,31 @@ import numpy as np
 
 
 class Board:
-    """
-    Konstruktor der Klasse Board
-    - initialisiert die Instanzvariablen des Spielfelds
-    - erstellt ein leeres Spielfeld
-    :param m: Zeilenanzahl des Spielfelds
-    :param n: Spaltenanzahl des Spielfelds
-    :param k: Gewinnbedingung (Anzahl von Treffern in einer Reihe)
-    """
+
 
     def __init__(self, m, n, k):
+        """
+        Konstruktor der Klasse Board
+        - initialisiert die Instanzvariablen des Spielfelds
+        - erstellt ein leeres Spielfeld
+        :param m: Zeilenanzahl des Spielfelds
+        :param n: Spaltenanzahl des Spielfelds
+        :param k: Gewinnbedingung (Anzahl von Treffern in einer Reihe)
+        """
         self.m = m
         self.n = n
         self.k = k
         self.fields = np.zeros((m, n), dtype=int)
 
-    """
-    Funktion stellt das Spielfeld in einem nummerierten Raster dar
-    und erstellt ein 'zweites' Spielfeld mit Symbolen, das das erste Spielfeld
-    mit den Zahlen überlagert (der Code arbeitet weiterhin mit player_number, 
-    nur die Darstellung/das darüber liegende Display wird mit Symbolen angezeigt) 
-    """
+
 
     def display(self):
+        """
+        Funktion stellt das Spielfeld in einem nummerierten Raster dar
+        und erstellt ein 'zweites' Spielfeld mit Symbolen, das das erste Spielfeld
+        mit den Zahlen überlagert (der Code arbeitet weiterhin mit player_number,
+        nur die Darstellung/das darüber liegende Display wird mit Symbolen angezeigt)
+        """
         print()
         # Überschrift Spalten
         print("\t", end='')
@@ -49,16 +51,17 @@ class Board:
 
         print()
 
-    """
-    Funktion, die zurückgibt, wer das Spiel gewonnen hat
-    0 = unentschieden
-    1 = Sieg Spieler 1
-    2 = Sieg Spieler 2
-    :param current_player_number: Spielernummer des Spielers, der den letzten Zug gesetzt hat
-    :return: gibt an, wer gewonnen hat (s.o.)
-    """
+
 
     def has_won(self, current_player_number):
+        """
+        Funktion, die zurückgibt, wer das Spiel gewonnen hat
+        0 = unentschieden
+        1 = Sieg Spieler 1
+        2 = Sieg Spieler 2
+        :param current_player_number: Spielernummer des Spielers, der den letzten Zug gesetzt hat
+        :return: gibt an, wer gewonnen hat (s.o.)
+        """
         # Methode has_won wird aufgerufen, falls das Spielfeld voll ist
         # oder falls es eine Gewinnerin gibt
 
@@ -74,13 +77,14 @@ class Board:
         else:
             return 0
 
-    """
-    Funktion prüft, ob das Spielfeld voll ist, d.h.
-    jedes Feld im Spielfeld ist mit einem Symbol besetzt
-    :return: ja, Spielfeld ist voll/nein, Spielfeld ist nicht voll
-    """
+
 
     def is_board_full(self):
+        """
+        Funktion prüft, ob das Spielfeld voll ist, d.h.
+        jedes Feld im Spielfeld ist mit einem Symbol besetzt
+        :return: ja, Spielfeld ist voll/nein, Spielfeld ist nicht voll
+        """
 
         # doppelte Schleife durch 2D-Array/Spielfeld
         for row in range(self.m):
@@ -94,13 +98,14 @@ class Board:
         # ja, das Spielfeld ist voll
         return True
 
-    """
-    Funktion gibt zurück, ob ein Player das Spiel gewonnen hat
-    :param player_number: Nummer von Player, für den/die geprüft wird, ob er/sie gewonnen hat
-    :return: der angegeben Player hat das Spiel gewonnen (ja/nein)
-    """
+
 
     def is_game_won_by(self, player_number):
+        """
+        Funktion gibt zurück, ob ein Player das Spiel gewonnen hat
+        :param player_number: Nummer von Player, für den/die geprüft wird, ob er/sie gewonnen hat
+        :return: der angegeben Player hat das Spiel gewonnen (ja/nein)
+        """
         # Überprüfung in Zeilen
         for row in range(self.m):
             # Zähler
@@ -156,16 +161,17 @@ class Board:
 
         return False
 
-    """
-    Funktion prüft, ob ein Spielzug gültig ist, d.h.
-    - ob die eingegebene Position im Spielfeld liegt
-    - ob die eingegebene Position bereits belegt ist
-    :param row: Zeile der eingegebenen Position
-    :param col: Spalte der eingegebenen Position
-    :return: gültig (ja/nein)
-    """
+
 
     def is_move_valid(self, row, col):
+        """
+        Funktion prüft, ob ein Spielzug gültig ist, d.h.
+        - ob die eingegebene Position im Spielfeld liegt
+        - ob die eingegebene Position bereits belegt ist
+        :param row: Zeile der eingegebenen Position
+        :param col: Spalte der eingegebenen Position
+        :return: gültig (ja/nein)
+        """
         # die von Computer/Mensch eingegebenen Werte
         # orientieren sich am gewählten Display
         # und müssen zuerst zu korrekten Array-Indexen umgeformt werden
@@ -173,13 +179,13 @@ class Board:
         col = col - 1
 
         # eingegebene Zeile muss im Spielfeld liegen
-        condition_rows = 0 <= row < self.m
+        condition_rows = (0 <= row < self.m)
 
         # eingegebene Spalte muss im Spielfeld liegen
-        condition_cols = 0 <= col < self.n
+        condition_cols = (0 <= col < self.n)
 
         # eingegebene Position darf noch nicht belegt sein
-        condition_position = self.fields[row][col] == 0
+        condition_position = (self.fields[row][col] == 0)
 
         # Abfrage, ob Bedingungen true oder false sind
         if condition_rows and condition_cols and condition_position:
