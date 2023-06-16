@@ -159,6 +159,21 @@ class Game:
             print("Player 2!")
             self.player2.set_player_name()
 
+        if ans == 2:
+            # Solo-Spieler:in gibt sich Namen
+            print("Player 1! ")
+            self.player1.set_player_name()
+
+            # Player 2 ist Bot
+            self.player2 = MyBot("MyBot", 2, 'O')
+
+            #Mode des Bots soll ausgewählt werden
+            self.player2.get_bot_gamemode()
+
+
+
+
+        """
         # Spielmodus 2 (Mensch vs. Zufall)
         if ans == 2:
             # Solo-Spieler:in gibt sich Namen
@@ -178,6 +193,7 @@ class Game:
 
             # Player 2 wird automatisch als (strategischer) Bot gesetzt
             self.player2 = MySmartBot("MySmartBot", 2, 'O')
+        """
 
         # Spielmodus 4 (Bot vs. Bot)
         if ans == 4:
