@@ -119,14 +119,6 @@ class Game:
         # Ende: Spielfeld auf null setzen
         self.board = None
 
-
-    # def get_valid_move(self):
-    """
-       Funktion fordert einen gültigen Spielzug von current_player ein
-       :return: gibt einen gültigen Spielzug zurück
-    """
-
-
     def start(self):
         """
         Funktion startet das Spiel

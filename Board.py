@@ -179,13 +179,13 @@ class Board:
         col = col - 1
 
         # eingegebene Zeile muss im Spielfeld liegen
-        condition_rows = (0 <= row < self.m)
+        condition_rows = 0 <= row < self.m
 
         # eingegebene Spalte muss im Spielfeld liegen
-        condition_cols = (0 <= col < self.n)
+        condition_cols = 0 <= col < self.n
 
         # eingegebene Position darf noch nicht belegt sein
-        condition_position = (self.fields[row][col] == 0)
+        condition_position = self.fields[row][col] == 0
 
         # Abfrage, ob Bedingungen true oder false sind
         if condition_rows and condition_cols and condition_position:

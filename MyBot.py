@@ -10,7 +10,7 @@ class MyBot(Player):
     """
 
 
-    def __init__(self, name, player_number, symbol,gamemode):
+    def __init__(self, name, player_number, symbol,game_mode):
         """
         Konstruktor der Klasse MyBot
         - initialisiert folgende Instanzvariablen
@@ -22,21 +22,7 @@ class MyBot(Player):
         self.player_number = player_number
         self.symbol = symbol
         # neue Instanzvariable game_mode
-        self.game_mode = gamemode
-
-    def get_bot_gamemode(self):
-        """
-        Methode erfragt vom menschlichen Player den Gamemode des Bots
-        (Zufall --> einfach, Smart --> schwierig usw.)
-        :return: Nummer des Gamemodes, in dem gespielt werden soll
-        """
-        if self.game_mode is None:
-            print("Choose the strength of your opponent:")
-            print("for level 1 press -- 1")
-            print("for level 2 press -- 2")
-            #Mensch soll eingeben, in welchem Mode der Bot spielen soll
-            gamemode = int(input("Enter your choice: "))
-        return self.game_mode
+        self.game_mode = game_mode
 
     def make_move(self, board):
         """
@@ -46,17 +32,14 @@ class MyBot(Player):
         if self.game_mode == 1:
             self.make_random_move(board)
 
+        # if game mode 2 --> strategischer Zug
         if self.game_mode == 2:
-        #if game mode 2 --> makemove aus MySmartBot
-            # 1. Methode aufrufen, die KReuz in mitte setzt
+            # Prioritäten setzen
+            # 1. Methode aufrufen, die KReuz in mitte setzt --> von mitte aus setzt
             # 2. Methode für offensiven Move --> neben Mitte? --> diagnoal fehlt noch!
-            # 3. Methode für defensiven Move --> 2er/3er Kettene ermitteln --> advanced: xxoxx erkennen als fast gewonnen
-            self.make_smart_move(board)
-
-
-
-
-
+            # 3. Methode für defensiven Move --> 2er/3er Ketten ermitteln
+            #       --> advanced: xxoxx erkennen als fast gewonnen
+            self.make_center_move(board)
 
     def make_random_move(self, board):
         """
@@ -76,14 +59,12 @@ class MyBot(Player):
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
                 break
 
-    def make_smart_move(self,board):
+    def make_center_move(self,board):
         """
         VORLÄUFIGE METHODE
         :param board:
         :return:
         """
-    #folgendes soll langfristig in eigene MEthode
-
         # Erstelle eine Liste aller Positionen auf dem Spielfeld
         positions = []
         for row in range(board.m):
@@ -126,3 +107,15 @@ class MyBot(Player):
                 if board.fields[row][col] == 0:
                     board.fields[row][col] = self.player_number
                     return
+
+
+        # Fallunterscheidung, wenn es keine eindeutige Mitte gibt?
+
+        # Überlegung 1: SmartBot soll erkennen, wenn der Gegner kurz davor ist zu gewinnen und dann den Zug verhindern (Verteidigung)
+        # Überlegung 2: SmartBot sollte selbst versuchen in einer geraden Linie zu setzen (Angriff)
+        # mit Schleife arbeiten? was wenn, Feld belegt ist?
+
+        # random_seat setzen --> macht immer dieselben Zufallszüge --> um Zufall zu bergenzen
+        # Bot vs. Bot random, wer anfängt
+
+        # statistiken: Schleife mit bot 100 mal laufen lassen und ergebnisse rausschreiben --> damit evtl in excel weiterarbeiten

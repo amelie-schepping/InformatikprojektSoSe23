@@ -79,4 +79,4 @@ class MySmartBot(Player):
         # random_seat setzen --> macht immer dieselben Zufallszüge --> um Zufall zu bergenzen
         # Bot vs. Bot random, wer anfängt
 
-        # statistiken: Schleife mit gamemode 3 100 mal laufen lassen und ergebnisse rausschreiben --> damit evtl in
+        # statistiken: Schleife mit bot 100 mal laufen lassen und ergebnisse rausschreiben --> damit evtl in excel weiterarbeiten
