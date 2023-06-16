@@ -10,7 +10,7 @@ class MyBot(Player):
     """
 
 
-    def __init__(self, name, player_number, symbol):
+    def __init__(self, name, player_number, symbol,gamemode):
         """
         Konstruktor der Klasse MyBot
         - initialisiert folgende Instanzvariablen
@@ -21,6 +21,8 @@ class MyBot(Player):
         self.name = name
         self.player_number = player_number
         self.symbol = symbol
+        # neue Instanzvariable game_mode
+        self.game_mode = gamemode
 
     def get_bot_gamemode(self):
         """
@@ -28,25 +30,23 @@ class MyBot(Player):
         (Zufall --> einfach, Smart --> schwierig usw.)
         :return: Nummer des Gamemodes, in dem gespielt werden soll
         """
-        print("Choose the strength of your opponent:")
-        print("for level 1 press -- 1")
-        print("for level 2 press -- 2")
-        #Mensch soll eingeben, in welchem Mode der Bot spielen soll
-        gamemode = int(input("Enter your choice: "))
-        return gamemode
+        if self.game_mode is None:
+            print("Choose the strength of your opponent:")
+            print("for level 1 press -- 1")
+            print("for level 2 press -- 2")
+            #Mensch soll eingeben, in welchem Mode der Bot spielen soll
+            gamemode = int(input("Enter your choice: "))
+        return self.game_mode
 
     def make_move(self, board):
         """
         Spielzug abhängig vom GameMode
         """
-
-        # gammode ermitteln
-
         # if game mode 1 --> Zufallszug
-        if self.get_bot_gamemode == 1:
+        if self.game_mode == 1:
             self.make_random_move(board)
 
-        if self.get_bot_gamemode == 2:
+        if self.game_mode == 2:
         #if game mode 2 --> makemove aus MySmartBot
             # 1. Methode aufrufen, die KReuz in mitte setzt
             # 2. Methode für offensiven Move --> neben Mitte? --> diagnoal fehlt noch!

@@ -141,9 +141,11 @@ class Game:
         # mögliche Spielmodi werden auf die Konsole ausgegeben
         print("GAME MODE")
         print("-- 1: Player vs Player -- ")
-        print("-- 2: Player vs Bot (easy) -- ")
-        print("-- 3: Player vs Bot (hard) -- ")
-        print("-- 4: Bot vs Bot  -- ")
+        print("-- 2: Player vs. Bot --")
+        print("-- 3: Bot vs. Bot --")
+        # print("-- 2: Player vs Bot (easy) -- ")
+        # print("-- 3: Player vs Bot (hard) -- ")
+        # print("-- 4: Bot vs Bot  -- ")
 
         # Eingabe muss valid sein: Value Error Exception!! catchen
         # Mensch wird aufgefordert, einen Spielmodus einzugeben
@@ -164,11 +166,14 @@ class Game:
             print("Player 1! ")
             self.player1.set_player_name()
 
-            # Player 2 ist Bot
-            self.player2 = MyBot("MyBot", 2, 'O')
+            # Solo-Spieler:in bestimmt, wie stark der Bot sein soll
+            print("Choose the strength of your opponent:")
+            print("for level 1 press -- 1")
+            print("for level 2 press -- 2")
 
-            #Mode des Bots soll ausgewählt werden
-            self.player2.get_bot_gamemode()
+            gamemode = int(input("Enter your choice: "))
+            # Player 2 wird als Bot initialisiert, der mit der gewählten Stärke spielt
+            self.player2 = MyBot("MyBot",2,'0',gamemode)
 
 
 
@@ -193,13 +198,26 @@ class Game:
 
             # Player 2 wird automatisch als (strategischer) Bot gesetzt
             self.player2 = MySmartBot("MySmartBot", 2, 'O')
-        """
-
-        # Spielmodus 4 (Bot vs. Bot)
+                    # Spielmodus 4 (Bot vs. Bot)
         if ans == 4:
             # beide Player werden automatisch als (strategische) Bots gesetzt
             self.player1 = MyBot("MyBot 1", 1, 'X')
             self.player2 = MyBot("MyBot 2", 2, 'O')
+        """
+
+        # Spielmodus 4 (Bot vs. Bot)
+        if ans == 3:
+            # Stärke der Bots wählen
+            print("Choose the strength of the opponents: ")
+            print("for level 1 press -- 1")
+            print("for level 2 press -- 2")
+
+            gamemode1 = int(input("Enter your choice for your first Bot: "))
+            gamemode2 = int(input("Enter your choice for your second Bot: "))
+
+            # beide Player werden automatisch als (strategische) Bots gesetzt
+            self.player1 = MyBot("MyBot 1", 1, 'X',gamemode1)
+            self.player2 = MyBot("MyBot 2", 2, 'O',gamemode2)
 
         # Spielbeginn ankündigen
         print("YOUR GAME STARTS....NOW!")
