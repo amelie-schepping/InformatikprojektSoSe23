@@ -3,14 +3,12 @@ import numpy as np
 import random
 
 
-
 class MyBot(Player):
     """
     Die Klasse MyBot ist eine Subklasse von der Klasse Player
     """
 
-
-    def __init__(self, name, player_number, symbol,game_mode):
+    def __init__(self, name, player_number, symbol, game_mode):
         """
         Konstruktor der Klasse MyBot
         - initialisiert folgende Instanzvariablen
@@ -18,11 +16,13 @@ class MyBot(Player):
         player_number: Bot ist Player 1 oder 2
         symbol: Symbol des Bots für die Spielzüge
         """
-        self.name = name
-        self.player_number = player_number
-        self.symbol = symbol
+        super().__init__(name, player_number, symbol)
+
         # neue Instanzvariable game_mode
         self.game_mode = game_mode
+
+        # wurde bereits ein zug gemacht?
+        self.move_made = False
 
     def make_move(self, board):
         """
@@ -39,7 +39,15 @@ class MyBot(Player):
             # 2. Methode für offensiven Move --> neben Mitte? --> diagnoal fehlt noch!
             # 3. Methode für defensiven Move --> 2er/3er Ketten ermitteln
             #       --> advanced: xxoxx erkennen als fast gewonnen
-            self.make_center_move(board)
+
+            # make_defense_move returned True, wenn sie einen Zug setzen kann; wenn er verteidigen muss
+            if not self.move_made:
+                self.make_defense_move(board)
+
+            if not self.move_made:
+                self.make_center_move(board)
+
+            self.move_made = False
 
     def make_random_move(self, board):
         """
@@ -59,12 +67,15 @@ class MyBot(Player):
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
                 break
 
-    def make_center_move(self,board):
+    def make_center_move(self, board):
         """
         VORLÄUFIGE METHODE
         :param board:
         :return:
         """
+
+        print("make_center_move()")
+
         # Erstelle eine Liste aller Positionen auf dem Spielfeld
         positions = []
         for row in range(board.m):
@@ -77,9 +88,10 @@ class MyBot(Player):
 
         # versuche zunächst in die Mitte zu setzen
         if board.fields[rowMid][colMid] == 0:
-             board.fields[rowMid][colMid] = self.player_number
+            board.fields[rowMid][colMid] = self.player_number
+            self.move_made = True
 
-            # ansonsten "zufällige Position", wobei "smarte" Positionen größer gewichtet werden
+        # ansonsten "zufällige Position", wobei "smarte" Positionen größer gewichtet werden
         else:
             while True:
                 # Fallunterscheidung: hat der Bot in der Mitte gesetzt?
@@ -89,7 +101,7 @@ class MyBot(Player):
                 # smart_positions für horizontale Linien
                 for col in range(colMid - (board.k - 1), colMid + board.k):
                     if col >= 0 and col < board.n:  # Überprüfung der Gültigkeit des Spaltenindex
-                            smart_positions.append((rowMid, col))
+                        smart_positions.append((rowMid, col))
 
                 # smart_positions für vertikale Linien
                 for row in range(rowMid - (board.k - 1), rowMid + board.k):
@@ -106,8 +118,8 @@ class MyBot(Player):
                 # setze den Zug
                 if board.fields[row][col] == 0:
                     board.fields[row][col] = self.player_number
+                    self.move_made = True
                     return
-
 
         # Fallunterscheidung, wenn es keine eindeutige Mitte gibt?
 
@@ -119,3 +131,32 @@ class MyBot(Player):
         # Bot vs. Bot random, wer anfängt
 
         # statistiken: Schleife mit bot 100 mal laufen lassen und ergebnisse rausschreiben --> damit evtl in excel weiterarbeiten
+
+    def make_defense_move(self, board):
+        """
+        :param board:
+        :return:
+        """
+
+        print("make_defense_move()")
+
+        # check rows
+        for row in range(board.m):
+            count = 0
+            for col in range(board.n):
+                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
+                    count += 1
+                    print(count)
+
+                if count == (board.k - 1):
+                    print("DEFENSE!!")
+                    if board.fields[row][col + 1] == 0:
+                        board.fields[row][col + 1] = self.player_number
+                        self.move_made = True
+                        break
+                    else:
+                        if board.fields[row][col - (board.k - 1)] == 0:
+                            board.fields[row][col - (board.k - 1)] = self.player_number
+                            self.move_made = True
+                            break
+                    break

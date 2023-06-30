@@ -8,7 +8,6 @@ import random
 
 class Game:
 
-
     def __init__(self, m, n, k):
         """
         Konstruktor der Klasse Game
@@ -28,8 +27,6 @@ class Game:
         # Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
         self.current_player = self.player1
 
-
-
     def change_current_player(self):
         """
         Funktion wechselt den/die aktuelle:n Spieler:in
@@ -45,8 +42,6 @@ class Game:
 
     # def convert_to_symbol(self):
 
-
-
     def determing_starting_player(self):
         """
            Funktion bestimmt den/die Startspieler:in zufällig
@@ -54,8 +49,6 @@ class Game:
         """
         starting_player = random.choice([self.player1, self.player2])
         return starting_player
-
-
 
     def game_loop(self):
         """
@@ -165,10 +158,7 @@ class Game:
 
             gamemode = int(input("Enter your choice: "))
             # Player 2 wird als Bot initialisiert, der mit der gewählten Stärke spielt
-            self.player2 = MyBot("MyBot",2,'0',gamemode)
-
-
-
+            self.player2 = MyBot("MyBot", 2, '0', gamemode)
 
         """
         # Spielmodus 2 (Mensch vs. Zufall)
@@ -208,8 +198,8 @@ class Game:
             gamemode2 = int(input("Enter your choice for your second Bot: "))
 
             # beide Player werden automatisch als (strategische) Bots gesetzt
-            self.player1 = MyBot("MyBot 1", 1, 'X',gamemode1)
-            self.player2 = MyBot("MyBot 2", 2, 'O',gamemode2)
+            self.player1 = MyBot("MyBot 1", 1, 'X', gamemode1)
+            self.player2 = MyBot("MyBot 2", 2, 'O', gamemode2)
 
         # Spielbeginn ankündigen
         print("YOUR GAME STARTS....NOW!")

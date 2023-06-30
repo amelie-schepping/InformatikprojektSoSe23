@@ -3,7 +3,6 @@ import numpy as np
 
 class Board:
 
-
     def __init__(self, m, n, k):
         """
         Konstruktor der Klasse Board
@@ -17,8 +16,6 @@ class Board:
         self.n = n
         self.k = k
         self.fields = np.zeros((m, n), dtype=int)
-
-
 
     def display(self):
         """
@@ -51,8 +48,6 @@ class Board:
 
         print()
 
-
-
     def has_won(self, current_player_number):
         """
         Funktion, die zurückgibt, wer das Spiel gewonnen hat
@@ -77,8 +72,6 @@ class Board:
         else:
             return 0
 
-
-
     def is_board_full(self):
         """
         Funktion prüft, ob das Spielfeld voll ist, d.h.
@@ -98,8 +91,6 @@ class Board:
         # ja, das Spielfeld ist voll
         return True
 
-
-
     def is_game_won_by(self, player_number):
         """
         Funktion gibt zurück, ob ein Player das Spiel gewonnen hat
@@ -116,7 +107,6 @@ class Board:
                     count += 1
                     if count == self.k:
                         return True
-                        count = 0
                 else:
                     # Zähler zurücksetzen bei Unterbrechung
                     count = 0
@@ -160,8 +150,6 @@ class Board:
                         count = 0
 
         return False
-
-
 
     def is_move_valid(self, row, col):
         """
