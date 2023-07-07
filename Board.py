@@ -39,7 +39,7 @@ class Board:
                 # Erzeugung eines neuen Arrays mit den entsprechenden Strings
                 # das neue Array 'überlagert' das alte Array, löscht das alte Array aber nicht
                 # 1 in X, 2 in O, 0 in "[ ]"
-                # fields_strings = np.where(self.fields == 1, "X", np.where(self.fields == 2, "O", "/"))
+                # fields_strings = np.where(self.fields == 1, "X", np.where(self.fields == 2, "O", "."))
                 # print(fields_strings[row][col], "\t", end='')
 
                 print(self.fields[row][col], "\t", end='')
@@ -173,10 +173,9 @@ class Board:
         condition_cols = 0 <= col < self.n
 
         # eingegebene Position darf noch nicht belegt sein
-        condition_position = self.fields[row][col] == 0
 
         # Abfrage, ob Bedingungen true oder false sind
-        if condition_rows and condition_cols and condition_position:
+        if condition_rows and condition_cols and self.fields[row][col] == 0:
             return True
 
         # falls eine der Bedingungen nicht true ist,

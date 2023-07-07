@@ -1,7 +1,6 @@
 class Player:
 
-
-    def __init__(self, name, player_number, symbol):
+    def __init__(self, name, player_number):
         """
         Konstruktor der Klasse Player
         - initialisiert Instanzvariablen eines Players
@@ -11,9 +10,6 @@ class Player:
         """
         self.name = name
         self.player_number = player_number
-        self.symbol = symbol
-
-
 
     def make_move(self, board):
         """
@@ -38,8 +34,11 @@ class Player:
                         # Eingabe in indexierte Array-Struktur umwandeln
                         row = row - 1
                         col = col - 1
-                        # und Schleife mit break verlassen
-                        break
+
+                        move = (row, col)
+                        # die nun gültige Eingabe wird als Spielzug zurückgegeben
+                        return move
+
                 # Eingabe ist nicht gültig, Schleife beginnt von vorne
                 else:
                     print("Please enter a valid position!")
@@ -50,10 +49,8 @@ class Player:
                 print("Please enter a valid position!")
                 # Schleife beginnt von vorne
                 continue
-        # die nun gültige Eingabe wird als Spielzug gesetzt
-        board.fields[row][col] = self.player_number
 
-
+        # board.fields[row][col] = self.player_number
 
     def set_player_name(self):
         """

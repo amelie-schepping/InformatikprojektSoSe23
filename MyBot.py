@@ -8,7 +8,7 @@ class MyBot(Player):
     Die Klasse MyBot ist eine Subklasse von der Klasse Player
     """
 
-    def __init__(self, name, player_number, symbol, game_mode):
+    def __init__(self, name, player_number, game_mode):
         """
         Konstruktor der Klasse MyBot
         - initialisiert folgende Instanzvariablen
@@ -16,7 +16,7 @@ class MyBot(Player):
         player_number: Bot ist Player 1 oder 2
         symbol: Symbol des Bots für die Spielzüge
         """
-        super().__init__(name, player_number, symbol)
+        super().__init__(name, player_number)
 
         # neue Instanzvariable game_mode
         self.game_mode = game_mode
@@ -30,7 +30,7 @@ class MyBot(Player):
         """
         # if game mode 1 --> Zufallszug
         if self.game_mode == 1:
-            self.make_random_move(board)
+            return self.make_random_move(board)
 
         # if game mode 2 --> strategischer Zug
         if self.game_mode == 2:
@@ -42,17 +42,25 @@ class MyBot(Player):
 
             # make_defense_move returned True, wenn sie einen Zug setzen kann; wenn er verteidigen muss
             if not self.move_made:
-                self.make_defense_move(board)
+                defense_move = self.make_defense_move(board)
+                if defense_move is not None:
+                    self.move_made = False
+                    return defense_move
 
             if not self.move_made:
-                self.make_center_move(board)
+                random_move = self.make_random_move(board)
+                self.move_made = False
+                return random_move
 
-            self.move_made = False
+            # if not self.move_made:
+            #     return self.make_center_move(board)
 
     def make_random_move(self, board):
         """
         Funktion für den Zufallsspielzug des Bots
         """
+        print("make_random_move()")
+
         # generiert so lange Zufallszahlen, bis eine gültige gefunden wurde
         while True:
             # random.randint erzeugt Zufallszahlen von 0 bis (exklusive) board.m (Zeilen)
@@ -63,9 +71,10 @@ class MyBot(Player):
             # prüft, ob Zufallsposition noch nicht belegt ist
             if board.fields[row][col] == 0:
                 # setzt Zufallsposition auf freies Feld
-                board.fields[row][col] = self.player_number
+                self.move_made = True
+                return (row, col)
+                # board.fields[row][col] = self.player_number
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
-                break
 
     def make_center_move(self, board):
         """
@@ -151,12 +160,10 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     print("DEFENSE!!")
                     if board.fields[row][col + 1] == 0:
-                        board.fields[row][col + 1] = self.player_number
                         self.move_made = True
-                        break
+                        return (row, (col + 1))
                     else:
                         if board.fields[row][col - (board.k - 1)] == 0:
-                            board.fields[row][col - (board.k - 1)] = self.player_number
                             self.move_made = True
-                            break
+                            return (row, (col - (board.k - 1)))
                     break
