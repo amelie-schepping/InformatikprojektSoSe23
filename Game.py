@@ -1,7 +1,6 @@
 from Player import Player
 from Board import Board
 from MyBot import MyBot
-from MySmartBot import MySmartBot
 
 import random
 
