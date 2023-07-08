@@ -226,11 +226,11 @@ class Game:
 
         # Ende des Gameloops
 
-        self.board.display()
+        # self.board.display()
 
         # das Spiel wurde gewonnen, Gewinner:in ermitteln
         winner = self.board.has_won(self.current_player.player_number)
-        print(winner, "has won!")
+        # print(winner, "has won!")
         return winner
 
         self.board = None
