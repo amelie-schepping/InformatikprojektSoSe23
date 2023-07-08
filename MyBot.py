@@ -76,8 +76,6 @@ class MyBot(Player):
         :return:
         """
 
-        print("make_center_move()")
-
         # Berechne die Mitte des Spielfelds
         # wird automatisch gerundet
         rowMid = board.m // 2
@@ -104,7 +102,6 @@ class MyBot(Player):
 
             while True:
                 starting_position = random.choice(mid_positions)
-                print(starting_position)
                 if board.is_move_valid(starting_position[0], starting_position[1]):
                     self.move_made = True
                     return starting_position
@@ -115,8 +112,6 @@ class MyBot(Player):
         :return:
         """
 
-        print("make_defense_move()")
-
         # check rows
         for row in range(board.m):
             count = 0
@@ -125,7 +120,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    print("DEFENSE!! ROW")
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
                         return (row, (col + 1))
@@ -142,7 +136,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    print("DEFENSE!! COL")
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
                         return ((row + 1), col)
@@ -161,7 +154,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 1):
-                        print("DEFENSE!! DIAGONAL")
                         if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
                             return ((row + (board.k - 1)), (col + (board.k - 1)))
@@ -180,7 +172,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 1):
-                        print("DEFENSE!! REVERSED DIAGONAL")
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
                             return row - (board.k - 1), col + (board.k - 1)
@@ -190,8 +181,6 @@ class MyBot(Player):
                                 return row + 1, col - 1
 
     def make_offense_move(self, board):
-        print("make_offense_move()")
-
         # check rows
         for row in range(board.m):
             count = 0
@@ -200,7 +189,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 2):
-                    print("OFFENSE!! ROW")
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
                         return (row, (col + 1))
@@ -217,7 +205,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 2):
-                    print("OFFENSE!! COL")
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
                         return ((row + 1), col)
@@ -235,7 +222,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 2):
-                        print("OFFENSE!! DIAGONAL")
                         if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
                             return ((row + (board.k - 1)), (col + (board.k - 1)))
@@ -253,7 +239,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 2):
-                        print("OFFENSE!! REVERSED DIAGONAL")
                         if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
                             return ((row - (board.k - 1)), (col + (board.k - 1)))
@@ -266,7 +251,6 @@ class MyBot(Player):
         """
         Funktion für den Zufallsspielzug des Bots
         """
-        print("make_random_move()")
 
         # generiert so lange Zufallszahlen, bis eine gültige gefunden wurde
         while True:
@@ -279,7 +263,6 @@ class MyBot(Player):
             if board.fields[row][col] == 0:
                 # setzt Zufallsposition auf freies Feld
                 self.move_made = True
-                print(row, col)
                 return (row, col)
                 # board.fields[row][col] = self.player_number
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
@@ -290,8 +273,6 @@ class MyBot(Player):
         :return:
         """
 
-        print("make_winning_move()")
-
         # check rows
         for row in range(board.m):
             count = 0
@@ -300,7 +281,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    print("OFFENSE!! ROW")
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
                         return (row, (col + 1))
@@ -317,7 +297,6 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    print("OFFENSE!! COL")
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
                         return ((row + 1), col)
@@ -335,7 +314,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 1):
-                        print("OFFENSE!! DIAGONAL")
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
                             return row - (board.k - 1), col + (board.k - 1)
@@ -353,7 +331,6 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 1):
-                        print("OFFENSE!! REVERSED DIAGONAL")
                         if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
                             return ((row - (board.k - 1)), (col + (board.k - 1)))
