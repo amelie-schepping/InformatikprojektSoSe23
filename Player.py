@@ -1,5 +1,5 @@
 class Player:
-
+ 
     def __init__(self, name, player_number):
         """
         Konstruktor der Klasse Player
