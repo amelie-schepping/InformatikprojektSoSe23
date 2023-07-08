@@ -28,6 +28,8 @@ class MyBot(Player):
         """
         Spielzug abhängig vom GameMode
         """
+        self.move_made = False
+
         # if game mode 1 --> Zufallszug
         if self.game_mode == 1:
             return self.make_random_move(board)
@@ -44,12 +46,10 @@ class MyBot(Player):
             if not self.move_made:
                 defense_move = self.make_defense_move(board)
                 if defense_move is not None:
-                    self.move_made = False
                     return defense_move
 
             if not self.move_made:
                 random_move = self.make_random_move(board)
-                self.move_made = False
                 return random_move
 
             # if not self.move_made:
@@ -158,7 +158,7 @@ class MyBot(Player):
                     print(count)
 
                 if count == (board.k - 1):
-                    print("DEFENSE!!")
+                    print("DEFENSE!! ROW")
                     if board.fields[row][col + 1] == 0:
                         self.move_made = True
                         return (row, (col + 1))
@@ -167,3 +167,63 @@ class MyBot(Player):
                             self.move_made = True
                             return (row, (col - (board.k - 1)))
                     break
+
+        # Überprüfung der Spalten
+        for col in range(board.n):
+            count = 0
+            for row in range(board.m):
+                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
+                    count += 1
+                    print(count)
+
+                if count == (board.k - 1):
+                    print("DEFENSE!! COL")
+                    if board.fields[row + 1][col] == 0:
+                        self.move_made = True
+                        return ((row + 1), col)
+                    else:
+                        if board.fields[row - (board.k - 1)][col] == 0:
+                            self.move_made = True
+                            return ((row - (board.k - 1)), col)
+                    break
+
+        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        for row in range(board.m - board.k + 1):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row + diagonal][col + diagonal] != self.player_number and \
+                            board.fields[row + diagonal][col + diagonal] != 0:
+                        count += 1
+                        print(count)
+
+                    if count == (board.k - 1):
+                        print("DEFENSE!! DIAGONAL")
+                        if board.fields[row + (board.k - 1)][col + (board.k - 1)] == 0:
+                            self.move_made = True
+                            return ((row + (board.k - 1)), (col + (board.k - 1)))
+                        else:
+                            if board.fields[row - 1][col - 1] == 0:
+                                self.move_made = True
+                                return ((row - 1), (col - 1))
+                        break
+
+        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        for row in range(board.k - 1, board.m):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row - diagonal][col + diagonal] != self.player_number and \
+                            board.fields[row - diagonal][col + diagonal] != 0:
+                        count += 1
+
+                    if count == (board.k - 1):
+                        print("DEFENSE!! REVERSED DIAGONAL")
+                        if board.fields[row - (board.k - 1)][col + (board.k - 1)] == 0:
+                            self.move_made = True
+                            return ((row - (board.k - 1)), (col + (board.k - 1)))
+                        else:
+                            if board.fields[row + 1][col - 1] == 0:
+                                self.move_made = True
+                                return ((row + 1), (col - 1))
+                        break
