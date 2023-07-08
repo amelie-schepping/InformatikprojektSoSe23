@@ -160,11 +160,6 @@ class Board:
         :param col: Spalte der eingegebenen Position
         :return: gültig (ja/nein)
         """
-        # die von Computer/Mensch eingegebenen Werte
-        # orientieren sich am gewählten Display
-        # und müssen zuerst zu korrekten Array-Indexen umgeformt werden
-        row = row - 1
-        col = col - 1
 
         # eingegebene Zeile muss im Spielfeld liegen
         condition_rows = 0 <= row < self.m

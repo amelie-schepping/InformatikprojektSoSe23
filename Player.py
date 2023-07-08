@@ -27,7 +27,7 @@ class Player:
                 col = int(input("Enter column: "))
 
                 # prüfen, ob Eingabe gültig ist
-                if board.is_move_valid(row, col):
+                if board.is_move_valid(row - 1, col - 1):
                     # Eingabe ist gültig
                     # prüfen, dass Eingabe != Enter/nicht leer ist
                     if row and col != "":
