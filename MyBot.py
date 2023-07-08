@@ -54,11 +54,213 @@ class MyBot(Player):
                     return defense_move
 
             if not self.move_made:
+                offense_move = self.make_offense_move(board)
+                if offense_move is not None:
+                    return offense_move
+
+            if not self.move_made:
+                center_move = self.make_center_move(board)
+                return center_move
+
+            if not self.move_made:
                 random_move = self.make_random_move(board)
                 return random_move
 
             # if not self.move_made:
             #     return self.make_center_move(board)
+
+    def make_center_move(self, board):
+        """
+        VORLÄUFIGE METHODE
+        :param board:
+        :return:
+        """
+
+        print("make_center_move()")
+
+        # Berechne die Mitte des Spielfelds
+        # wird automatisch gerundet
+        rowMid = board.m // 2
+        colMid = board.n // 2
+
+        starting_position = (rowMid, colMid)
+
+        # versuche zunächst in die Mitte zu setzen
+        if board.is_move_valid(starting_position[0], starting_position[1]):
+            self.move_made = True
+            return starting_position
+
+        else:
+            mid_positions = []
+
+            mid_positions.append((rowMid, colMid + 1))
+            mid_positions.append((rowMid + 1, colMid + 1))
+            mid_positions.append((rowMid + 1, colMid))
+            mid_positions.append((rowMid + 1, colMid - 1))
+            mid_positions.append((rowMid, colMid - 1))
+            mid_positions.append((rowMid - 1, colMid - 1))
+            mid_positions.append((rowMid - 1, colMid))
+            mid_positions.append((rowMid - 1, colMid + 1))
+
+            while True:
+                starting_position = random.choice(mid_positions)
+                print(starting_position)
+                if board.is_move_valid(starting_position[0], starting_position[1]):
+                    self.move_made = True
+                    return starting_position
+
+    def make_defense_move(self, board):
+        """
+        :param board:
+        :return:
+        """
+
+        print("make_defense_move()")
+
+        # check rows
+        for row in range(board.m):
+            count = 0
+            for col in range(board.n):
+                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
+                    count += 1
+
+                if count == (board.k - 1):
+                    print("DEFENSE!! ROW")
+                    if board.is_move_valid(row, (col + 1)):
+                        self.move_made = True
+                        return (row, (col + 1))
+                    else:
+                        if board.is_move_valid(row, (col - (board.k - 1))):
+                            self.move_made = True
+                            return (row, (col - (board.k - 1)))
+
+        # Überprüfung der Spalten
+        for col in range(board.n):
+            count = 0
+            for row in range(board.m):
+                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
+                    count += 1
+
+                if count == (board.k - 1):
+                    print("DEFENSE!! COL")
+                    if board.is_move_valid((row + 1), col):
+                        self.move_made = True
+                        return ((row + 1), col)
+                    else:
+                        if board.is_move_valid((row - (board.k - 1)), col):
+                            self.move_made = True
+                            return ((row - (board.k - 1)), col)
+
+        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        for row in range(board.m - board.k + 1):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row + diagonal][col + diagonal] != self.player_number and \
+                            board.fields[row + diagonal][col + diagonal] != 0:
+                        count += 1
+
+                    if count == (board.k - 1):
+                        print("DEFENSE!! DIAGONAL")
+                        if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
+                            self.move_made = True
+                            return ((row + (board.k - 1)), (col + (board.k - 1)))
+                        else:
+                            if board.is_move_valid((row - 1), (col - 1)):
+                                self.move_made = True
+                                return ((row - 1), (col - 1))
+
+        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        for row in range(board.k - 1, board.m):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row - diagonal][col + diagonal] != self.player_number and \
+                            board.fields[row - diagonal][col + diagonal] != 0:
+                        count += 1
+
+                    if count == (board.k - 1):
+                        print("DEFENSE!! REVERSED DIAGONAL")
+                        if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
+                            self.move_made = True
+                            return row - (board.k - 1), col + (board.k - 1)
+                        else:
+                            if board.is_move_valid(row + 1, col - 1):
+                                self.move_made = True
+                                return row + 1, col - 1
+
+    def make_offense_move(self, board):
+        print("make_offense_move()")
+
+        # check rows
+        for row in range(board.m):
+            count = 0
+            for col in range(board.n):
+                if board.fields[row][col] == self.player_number:
+                    count += 1
+
+                if count == (board.k - 2):
+                    print("OFFENSE!! ROW")
+                    if board.is_move_valid(row, (col + 1)):
+                        self.move_made = True
+                        return (row, (col + 1))
+                    else:
+                        if board.is_move_valid(row, (col - (board.k - 1))):
+                            self.move_made = True
+                            return (row, (col - (board.k - 1)))
+
+        # Überprüfung der Spalten
+        for col in range(board.n):
+            count = 0
+            for row in range(board.m):
+                if board.fields[row][col] == self.player_number:
+                    count += 1
+
+                if count == (board.k - 2):
+                    print("OFFENSE!! COL")
+                    if board.is_move_valid((row + 1), col):
+                        self.move_made = True
+                        return ((row + 1), col)
+                    else:
+                        if board.is_move_valid((row - (board.k - 1)), col):
+                            self.move_made = True
+                            return ((row - (board.k - 1)), col)
+
+        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        for row in range(board.m - board.k + 1):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row + diagonal][col + diagonal] == self.player_number:
+                        count += 1
+
+                    if count == (board.k - 2):
+                        print("OFFENSE!! DIAGONAL")
+                        if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
+                            self.move_made = True
+                            return ((row + (board.k - 1)), (col + (board.k - 1)))
+                        else:
+                            if board.is_move_valid((row - 1), (col - 1)):
+                                self.move_made = True
+                                return ((row - 1), (col - 1))
+
+        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        for row in range(board.k - 1, board.m):
+            for col in range(board.n - board.k + 1):
+                count = 0
+                for diagonal in range(board.k):
+                    if board.fields[row - diagonal][col + diagonal] == self.player_number:
+                        count += 1
+
+                    if count == (board.k - 2):
+                        print("OFFENSE!! REVERSED DIAGONAL")
+                        if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
+                            self.move_made = True
+                            return ((row - (board.k - 1)), (col + (board.k - 1)))
+                        else:
+                            if board.is_move_valid((row + 1), (col - 1)):
+                                self.move_made = True
+                                return ((row + 1), (col - 1))
 
     def make_random_move(self, board):
         """
@@ -82,108 +284,6 @@ class MyBot(Player):
                 # board.fields[row][col] = self.player_number
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
 
-    def make_center_move(self, board):
-        """
-        VORLÄUFIGE METHODE
-        :param board:
-        :return:
-        """
-
-        print("make_center_move()")
-
-        # Berechne die Mitte des Spielfelds
-        # wird automatisch gerundet
-        rowMid = board.m // 2
-        colMid = board.n // 2
-
-        # versuche zunächst in die Mitte zu setzen
-        if board.fields[rowMid][colMid] == 0:
-            self.move_made = True
-            return (rowMid, colMid)
-
-    def make_defense_move(self, board):
-        """
-        :param board:
-        :return:
-        """
-
-        print("make_defense_move()")
-
-        # check rows
-        for row in range(board.m):
-            count = 0
-            for col in range(board.n):
-                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
-                    count += 1
-                    print(count)
-
-                if count == (board.k - 1):
-                    print("DEFENSE!! ROW")
-                    if board.is_move_valid(row, (col + 1)):
-                        self.move_made = True
-                        return (row, (col + 1))
-                    else:
-                        if board.is_move_valid(row, (col - (board.k - 1))):
-                            self.move_made = True
-                            return (row, (col - (board.k - 1)))
-
-        # Überprüfung der Spalten
-        for col in range(board.n):
-            count = 0
-            for row in range(board.m):
-                if board.fields[row][col] != self.player_number and board.fields[row][col] != 0:
-                    count += 1
-                    print(count)
-
-                if count == (board.k - 1):
-                    print("DEFENSE!! COL")
-                    if board.is_move_valid((row + 1), col):
-                        self.move_made = True
-                        return ((row + 1), col)
-                    else:
-                        if board.is_move_valid((row - (board.k - 1)), col):
-                            self.move_made = True
-                            return ((row - (board.k - 1)), col)
-
-        # Überprüfung der Diagonalen (von links oben nach rechts unten)
-        for row in range(board.m - board.k + 1):
-            for col in range(board.n - board.k + 1):
-                count = 0
-                for diagonal in range(board.k):
-                    if board.fields[row + diagonal][col + diagonal] != self.player_number and \
-                            board.fields[row + diagonal][col + diagonal] != 0:
-                        count += 1
-                        print(count)
-
-                    if count == (board.k - 1):
-                        print("DEFENSE!! DIAGONAL")
-                        if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
-                            self.move_made = True
-                            return ((row + (board.k - 1)), (col + (board.k - 1)))
-                        else:
-                            if board.is_move_valid((row - 1), (col - 1)):
-                                self.move_made = True
-                                return ((row - 1), (col - 1))
-
-        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
-        for row in range(board.k - 1, board.m):
-            for col in range(board.n - board.k + 1):
-                count = 0
-                for diagonal in range(board.k):
-                    if board.fields[row - diagonal][col + diagonal] != self.player_number and \
-                            board.fields[row - diagonal][col + diagonal] != 0:
-                        count += 1
-
-                    if count == (board.k - 1):
-                        print("DEFENSE!! REVERSED DIAGONAL")
-                        if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
-                            self.move_made = True
-                            return ((row - (board.k - 1)), (col + (board.k - 1)))
-                        else:
-                            if board.is_move_valid((row + 1), (col - 1)):
-                                self.move_made = True
-                                return ((row + 1), (col - 1))
-
     def make_winning_move(self, board):
         """
         :param board:
@@ -198,7 +298,6 @@ class MyBot(Player):
             for col in range(board.n):
                 if board.fields[row][col] == self.player_number:
                     count += 1
-                    print(count)
 
                 if count == (board.k - 1):
                     print("OFFENSE!! ROW")
@@ -216,7 +315,6 @@ class MyBot(Player):
             for row in range(board.m):
                 if board.fields[row][col] == self.player_number:
                     count += 1
-                    print(count)
 
                 if count == (board.k - 1):
                     print("OFFENSE!! COL")
@@ -235,17 +333,16 @@ class MyBot(Player):
                 for diagonal in range(board.k):
                     if board.fields[row + diagonal][col + diagonal] == self.player_number:
                         count += 1
-                        print(count)
 
                     if count == (board.k - 1):
                         print("OFFENSE!! DIAGONAL")
-                        if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
+                        if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
-                            return ((row + (board.k - 1)), (col + (board.k - 1)))
+                            return row - (board.k - 1), col + (board.k - 1)
                         else:
-                            if board.is_move_valid((row - 1), (col - 1)):
+                            if board.is_move_valid(row + 1, col - 1):
                                 self.move_made = True
-                                return ((row - 1), (col - 1))
+                                return row + 1, col - 1
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
         for row in range(board.k - 1, board.m):

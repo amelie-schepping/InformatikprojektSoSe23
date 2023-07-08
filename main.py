@@ -1,4 +1,4 @@
 from Game import Game
 
 newGame = Game(5, 5, 4)
-newGame.game_loop()
+newGame.collect_data(1, 1, 5)

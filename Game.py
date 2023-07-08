@@ -169,8 +169,19 @@ class Game:
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
 
-            gamemode1 = int(input("Enter your choice for your first Bot: "))
-            gamemode2 = int(input("Enter your choice for your second Bot: "))
+            while True:
+                try:
+                    gamemode1 = int(input("Enter your choice for your first Bot: "))
+                    gamemode2 = int(input("Enter your choice for your second Bot: "))
+
+                    if gamemode1 not in [1, 2] or gamemode2 not in [1, 2]:
+                        raise ValueError
+
+                    break
+
+                except ValueError:
+                    print("Please enter a valid choice!")
+                    continue
 
             # beide Player werden automatisch als (strategische) Bots gesetzt
             self.player1 = MyBot("MyBot 1", 1, gamemode1)
@@ -189,3 +200,54 @@ class Game:
         col = current_move[1]
 
         self.board.fields[row][col] = self.current_player.player_number
+
+    def collect_data(self, gamemode1, gamemode2, number_of_rounds):
+
+        # initialize Bots
+        self.player1 = MyBot("MyBot 1", 1, gamemode1)
+        self.player2 = MyBot("MyBot 2", 2, gamemode2)
+
+        # initialize winner_count / draw_count
+        winner_count_player1 = 0
+        winner_count_player2 = 0
+        draw_count = 0
+
+        for rounds in range(number_of_rounds):
+            starting_player_in_game = self.determing_starting_player()
+            self.current_player = starting_player_in_game
+
+            # starting gameloop
+            while not self.board.is_game_won_by(self.current_player.player_number):
+
+                self.set_move()
+
+                # check if there is a winner
+                if self.board.is_game_won_by(self.current_player.player_number):
+                    break
+
+                if self.board.is_board_full():
+                    break
+
+                self.change_current_player()
+
+            # Ende des Gameloops
+
+            # das Spiel wurde gewonnen, Gewinner:in ermitteln
+            winner = self.board.has_won(self.current_player.player_number)
+
+            # Gewinner:in auf die Konsole ausgeben
+            if winner == 1:
+                winner_count_player1 += 1
+
+            if winner == 2:
+                winner_count_player2 += 1
+
+            if winner == 0:
+                draw_count += 1
+
+        print("MyBot 1, in gamemode ", gamemode1, " won: ", winner_count_player1, "times. ")
+        print("MyBot 2, in gamemode ", gamemode2, " won: ", winner_count_player2, "times. ")
+
+        print("The game ended in a draw: ", draw_count, "times.")
+
+        self.board = None
