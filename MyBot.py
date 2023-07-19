@@ -88,6 +88,7 @@ class MyBot(Player):
             self.move_made = True
             return starting_position
 
+        # postions next to the middle
         else:
             mid_positions = []
 

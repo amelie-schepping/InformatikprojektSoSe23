@@ -134,9 +134,20 @@ class Game:
         # print("-- 3: Player vs Bot (hard) -- ")
         # print("-- 4: Bot vs Bot  -- ")
 
-        # Eingabe muss valid sein: Value Error Exception!! catchen
+        # Eingabe muss valid sein: Value Error Exception catchen
         # Mensch wird aufgefordert, einen Spielmodus einzugeben
-        ans = int(input("Enter the number of your choice: "))
+
+        while True:
+            try:
+                ans = int(input("Enter the number of your choice: "))
+
+                if ans not in [1, 2, 3]:
+                    raise ValueError
+                break
+
+            except ValueError:
+                print("Please enter a valid choice!")
+                continue
 
         # je nachdem, welcher Spiel-Modus angefordert wird, passiert unterschiedliches
 
@@ -158,7 +169,18 @@ class Game:
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
 
-            gamemode = int(input("Enter your choice: "))
+            while True:
+                try:
+                    gamemode = int(input("Enter your choice: "))
+
+                    if gamemode not in [1, 2]:
+                        raise ValueError
+                    break
+
+                except ValueError:
+                    print("Please enter a valid choice!")
+                    continue
+
             # Player 2 wird als Bot initialisiert, der mit der gewählten Stärke spielt
             self.player2 = MyBot("MyBot", 2, gamemode)
 
@@ -174,6 +196,7 @@ class Game:
                     gamemode1 = int(input("Enter your choice for your first Bot: "))
                     gamemode2 = int(input("Enter your choice for your second Bot: "))
 
+                    # check input
                     if gamemode1 not in [1, 2] or gamemode2 not in [1, 2]:
                         raise ValueError
 
@@ -207,6 +230,7 @@ class Game:
         self.player1 = MyBot("MyBot 1", 1, gamemode1)
         self.player2 = MyBot("MyBot 2", 2, gamemode2)
 
+        # static starting player? player 1 starting, player 2 starting
         starting_player_in_game = self.determing_starting_player()
         self.current_player = starting_player_in_game
 
@@ -219,6 +243,7 @@ class Game:
             if self.board.is_game_won_by(self.current_player.player_number):
                 break
 
+            # check if for a draw
             if self.board.is_board_full():
                 break
 
@@ -226,11 +251,11 @@ class Game:
 
         # Ende des Gameloops
 
-        # self.board.display()
+        self.board.display()
 
         # das Spiel wurde gewonnen, Gewinner:in ermitteln
         winner = self.board.has_won(self.current_player.player_number)
-        # print(winner, "has won!")
+        print(winner, "has won!")
         return winner
 
         self.board = None

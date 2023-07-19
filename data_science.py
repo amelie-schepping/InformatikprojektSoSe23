@@ -1,8 +1,8 @@
 from Game import Game
 
-gamemode1 = 2
+gamemode1 = 1
 gamemode2 = 2
-number_of_rounds = 100
+number_of_rounds = 10
 
 # initialize winner_count / draw_count
 winner_count_player1 = 0
