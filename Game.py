@@ -46,7 +46,7 @@ class Game:
         self.player2 = MyBot("MyBot 2", 2, gamemode2)
 
         # static starting player? player 1 starting, player 2 starting
-        starting_player_in_game = self.determing_starting_player()
+        starting_player_in_game = self.determine_starting_player()
         self.current_player = starting_player_in_game
 
         # starting gameloop
@@ -75,7 +75,7 @@ class Game:
 
         self.board = None
 
-    def determing_starting_player(self):
+    def determine_starting_player(self):
         """
            Funktion bestimmt den/die Startspieler:in zufällig
            :return: gibt Startspieler:in zurück
@@ -91,7 +91,7 @@ class Game:
         self.start()
 
         # Startspieler:in wird zufällig gewählt und auf Konsole ausgegeben
-        starting_player_in_game = self.determing_starting_player()
+        starting_player_in_game = self.determine_starting_player()
         print(f"The starting player is: {starting_player_in_game.name}\n")
 
         # Startspieler:in wird als aktuelle Spieler:in gesetzt
