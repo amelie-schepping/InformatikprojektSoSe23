@@ -27,6 +27,9 @@ class MyBot(Player):
     def make_move(self, board):
         """
         Spielzug abhängig vom GameMode
+        gibt ein Tupel zurück
+        :param board:
+        :return: tuple (row:int col: int)
         """
         self.move_made = False
 

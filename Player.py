@@ -15,8 +15,7 @@ class Player:
         """
         Funktion setzt einen Spielzug
         :param board: Spielfeld, auf dem der Spielzug gesetzt wird
-        :param row: Zeile des zu setzenden Spielzugs
-        :param col: Spalte des zu setzenden Spielzugs
+        :return: tuple (row: int, col: int)
         """
         # while-Schleife
         while True:
