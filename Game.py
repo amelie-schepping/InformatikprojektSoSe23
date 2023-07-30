@@ -38,11 +38,42 @@ class Game:
         else:
             self.current_player = self.player1
 
-    """
-    Funktion wandelt Player.player_number in Player.symbol um
-    """
 
-    # def convert_to_symbol(self):
+    def collect_data(self, gamemode1, gamemode2):
+
+        # initialize Bots
+        self.player1 = MyBot("MyBot 1", 1, gamemode1)
+        self.player2 = MyBot("MyBot 2", 2, gamemode2)
+
+        # static starting player? player 1 starting, player 2 starting
+        starting_player_in_game = self.determing_starting_player()
+        self.current_player = starting_player_in_game
+
+        # starting gameloop
+        while not self.board.is_game_won_by(self.current_player.player_number):
+
+            self.set_move()
+
+            # check if there is a winner
+            if self.board.is_game_won_by(self.current_player.player_number):
+                break
+
+            # check if for a draw
+            if self.board.is_board_full():
+                break
+
+            self.change_current_player()
+
+        # Ende des Gameloops
+
+        self.board.display()
+
+        # das Spiel wurde gewonnen, Gewinner:in ermitteln
+        winner = self.board.has_won(self.current_player.player_number)
+        print(winner, "has won!")
+        return winner
+
+        self.board = None
 
     def determing_starting_player(self):
         """
@@ -113,6 +144,14 @@ class Game:
         input("\n ----------> Press Enter to end the game. <----------")
         # Ende: Spielfeld auf null setzen
         self.board = None
+
+    def set_move(self):
+        current_move = self.current_player.make_move(self.board)
+
+        row = current_move[0]
+        col = current_move[1]
+
+        self.board.fields[row][col] = self.current_player.player_number
 
     def start(self):
         """
@@ -216,46 +255,5 @@ class Game:
         # Feld ausgeben
         self.board.display()
 
-    def set_move(self):
-        current_move = self.current_player.make_move(self.board)
 
-        row = current_move[0]
-        col = current_move[1]
 
-        self.board.fields[row][col] = self.current_player.player_number
-
-    def collect_data(self, gamemode1, gamemode2):
-
-        # initialize Bots
-        self.player1 = MyBot("MyBot 1", 1, gamemode1)
-        self.player2 = MyBot("MyBot 2", 2, gamemode2)
-
-        # static starting player? player 1 starting, player 2 starting
-        starting_player_in_game = self.determing_starting_player()
-        self.current_player = starting_player_in_game
-
-        # starting gameloop
-        while not self.board.is_game_won_by(self.current_player.player_number):
-
-            self.set_move()
-
-            # check if there is a winner
-            if self.board.is_game_won_by(self.current_player.player_number):
-                break
-
-            # check if for a draw
-            if self.board.is_board_full():
-                break
-
-            self.change_current_player()
-
-        # Ende des Gameloops
-
-        self.board.display()
-
-        # das Spiel wurde gewonnen, Gewinner:in ermitteln
-        winner = self.board.has_won(self.current_player.player_number)
-        print(winner, "has won!")
-        return winner
-
-        self.board = None
