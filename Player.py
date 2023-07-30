@@ -56,6 +56,13 @@ class Player:
         Funktion fordert Namenseingabe von Player über die Konsole
         und setzt diesen als Namen des Players
         """
-        new_name = input("Type in your name: ")
-        # prüfen, ob Name gültig ist (mind eine Zahl oder ein Buchstabe oder ein Zeichen)
-        self.name = new_name
+        while True:
+            new_name = input("Your name: ")
+            # prüfen, ob Name gültig ist (darf nicht leer sein und muss mit einem buchstaben anfangen)
+            if new_name != "" and new_name[0].isalpha():
+                self.name = new_name
+                break
+            else:
+                print("Please enter your name (must start with a letter).")
+
+
