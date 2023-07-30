@@ -121,13 +121,13 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    if board.is_move_valid(row, (col + 1)):
+                    if board.is_move_valid(row, col + 1):
                         self.move_made = True
-                        return (row, (col + 1))
+                        return (row, col + 1)
                     else:
-                        if board.is_move_valid(row, (col - (board.k - 1))):
+                        if board.is_move_valid(row, col - (board.k - 1)):
                             self.move_made = True
-                            return (row, (col - (board.k - 1)))
+                            return (row, col - (board.k - 1))
 
         # Überprüfung der Spalten
         for col in range(board.n):
@@ -137,13 +137,13 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
-                    if board.is_move_valid((row + 1), col):
+                    if board.is_move_valid(row + 1, col):
                         self.move_made = True
-                        return ((row + 1), col)
+                        return (row + 1, col)
                     else:
-                        if board.is_move_valid((row - (board.k - 1)), col):
+                        if board.is_move_valid(row - (board.k - 1), col):
                             self.move_made = True
-                            return ((row - (board.k - 1)), col)
+                            return (row - (board.k - 1), col)
 
         # Überprüfung der Diagonalen (von links oben nach rechts unten)
         for row in range(board.m - board.k + 1):
@@ -155,13 +155,13 @@ class MyBot(Player):
                         count += 1
 
                     if count == (board.k - 1):
-                        if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
+                        if board.is_move_valid(row + (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
-                            return ((row + (board.k - 1)), (col + (board.k - 1)))
+                            return (row + (board.k - 1), col + (board.k - 1))
                         else:
-                            if board.is_move_valid((row - 1), (col - 1)):
+                            if board.is_move_valid(row - 1, col - 1):
                                 self.move_made = True
-                                return ((row - 1), (col - 1))
+                                return (row - 1, col - 1)
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
         for row in range(board.k - 1, board.m):
