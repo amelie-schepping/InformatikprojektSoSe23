@@ -71,9 +71,10 @@ class Game:
         # das Spiel wurde gewonnen, Gewinner:in ermitteln
         winner = self.board.has_won(self.current_player.player_number)
         print(winner, "has won!")
+        self.board = None
         return winner
 
-        self.board = None
+
 
     def determine_starting_player(self):
         """
