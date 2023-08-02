@@ -89,6 +89,7 @@ class MyBot(Player):
         # versuche zunächst in die Mitte zu setzen
         if board.is_move_valid(starting_position[0], starting_position[1]):
             self.move_made = True
+            print(f"in die mitte gesetzt {self.player_number}")
             return starting_position
 
         # postions next to the middle
@@ -108,6 +109,7 @@ class MyBot(Player):
                 starting_position = random.choice(mid_positions)
                 if board.is_move_valid(starting_position[0], starting_position[1]):
                     self.move_made = True
+                    print(f"fast in die mitte gesetzt {self.player_number}")
                     return starting_position
 
     def make_defense_move(self, board):
@@ -126,10 +128,12 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid(row, col + 1):
                         self.move_made = True
+                        print(f"defense row rechts {self.player_number}")
                         return (row, col + 1)
                     else:
                         if board.is_move_valid(row, col - (board.k - 1)):
                             self.move_made = True
+                            print(f"defense row links {self.player_number}")
                             return (row, col - (board.k - 1))
 
         # Überprüfung der Spalten
@@ -142,10 +146,12 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid(row + 1, col):
                         self.move_made = True
+                        print(f"defense col unten {self.player_number}")
                         return (row + 1, col)
                     else:
                         if board.is_move_valid(row - (board.k - 1), col):
                             self.move_made = True
+                            print(f"defense col oben {self.player_number}")
                             return (row - (board.k - 1), col)
 
         # Überprüfung der Diagonalen (von links oben nach rechts unten)
@@ -160,10 +166,12 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row + (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
+                            print(f"defense diagonale rechts unten {self.player_number}")
                             return (row + (board.k - 1), col + (board.k - 1))
                         else:
                             if board.is_move_valid(row - 1, col - 1):
                                 self.move_made = True
+                                print(f"defense diagonale links oben {self.player_number}")
                                 return (row - 1, col - 1)
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
@@ -178,10 +186,12 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
+                            print(f"defense diagonale links unten {self.player_number}")
                             return row - (board.k - 1), col + (board.k - 1)
                         else:
                             if board.is_move_valid(row + 1, col - 1):
                                 self.move_made = True
+                                print(f"defense diagonale rechts oben {self.player_number}")
                                 return row + 1, col - 1
 
     def make_offense_move(self, board):
@@ -195,10 +205,12 @@ class MyBot(Player):
                 if count == (board.k - 2):
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
+                        print(f"offense row rechts {self.player_number}")
                         return (row, (col + 1))
                     else:
                         if board.is_move_valid(row, (col - (board.k - 1))):
                             self.move_made = True
+                            print(f"offense row links {self.player_number}")
                             return (row, (col - (board.k - 1)))
 
         # Überprüfung der Spalten
@@ -211,10 +223,12 @@ class MyBot(Player):
                 if count == (board.k - 2):
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
+                        print(f"offense col unten {self.player_number}")
                         return ((row + 1), col)
                     else:
                         if board.is_move_valid((row - (board.k - 1)), col):
                             self.move_made = True
+                            print(f"offense col oben {self.player_number}")
                             return ((row - (board.k - 1)), col)
 
         # Überprüfung der Diagonalen (von links oben nach rechts unten)
@@ -228,10 +242,12 @@ class MyBot(Player):
                     if count == (board.k - 2):
                         if board.is_move_valid((row + (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
+                            print(f"offense diagonale rechts unten {self.player_number}")
                             return ((row + (board.k - 1)), (col + (board.k - 1)))
                         else:
                             if board.is_move_valid((row - 1), (col - 1)):
                                 self.move_made = True
+                                print(f"offense diagonale links oben {self.player_number}")
                                 return ((row - 1), (col - 1))
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
@@ -245,10 +261,12 @@ class MyBot(Player):
                     if count == (board.k - 2):
                         if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
+                            print(f"offense diagonale links unten {self.player_number}")
                             return ((row - (board.k - 1)), (col + (board.k - 1)))
                         else:
                             if board.is_move_valid((row + 1), (col - 1)):
                                 self.move_made = True
+                                print(f"offense diagonale rechts oben {self.player_number}")
                                 return ((row + 1), (col - 1))
 
     def make_random_move(self, board):
@@ -267,6 +285,7 @@ class MyBot(Player):
             if board.fields[row][col] == 0:
                 # setzt Zufallsposition auf freies Feld
                 self.move_made = True
+                print(f"random move {self.player_number}")
                 return (row, col)
                 # board.fields[row][col] = self.player_number
                 # beendet Schleife, da Bot seinen Zug nun gesetzt hat
@@ -287,10 +306,12 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
+                        print(f"winning row rechts {self.player_number}")
                         return (row, (col + 1))
                     else:
                         if board.is_move_valid(row, (col - (board.k - 1))):
                             self.move_made = True
+                            print(f"winning row links {self.player_number}")
                             return (row, (col - (board.k - 1)))
 
         # Überprüfung der Spalten
@@ -303,10 +324,12 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
+                        print(f"winning col oben {self.player_number}")
                         return ((row + 1), col)
                     else:
                         if board.is_move_valid((row - (board.k - 1)), col):
                             self.move_made = True
+                            print(f"winning col unten {self.player_number}")
                             return ((row - (board.k - 1)), col)
 
         # Überprüfung der Diagonalen (von links oben nach rechts unten)
@@ -320,10 +343,12 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
+                            print(f"winning diagonale rechts unten {self.player_number}")
                             return row - (board.k - 1), col + (board.k - 1)
                         else:
                             if board.is_move_valid(row + 1, col - 1):
                                 self.move_made = True
+                                print(f"winning diagonale links oben {self.player_number}")
                                 return row + 1, col - 1
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
@@ -337,8 +362,10 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
+                            print(f"winning diagonale links unten {self.player_number}")
                             return ((row - (board.k - 1)), (col + (board.k - 1)))
                         else:
                             if board.is_move_valid((row + 1), (col - 1)):
                                 self.move_made = True
+                                print(f"winning diagonale rechts oben {self.player_number}")
                                 return ((row + 1), (col - 1))
