@@ -324,12 +324,12 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
-                        print(f"winning col oben {self.player_number}")
+                        print(f"winning col unten {self.player_number}")
                         return ((row + 1), col)
                     else:
                         if board.is_move_valid((row - (board.k - 1)), col):
                             self.move_made = True
-                            print(f"winning col unten {self.player_number}")
+                            print(f"winning col oben {self.player_number}")
                             return ((row - (board.k - 1)), col)
 
         # Überprüfung der Diagonalen (von links oben nach rechts unten)
