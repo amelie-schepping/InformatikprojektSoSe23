@@ -141,10 +141,11 @@ class Game:
         if winner == 0:
             print("This game ended in a draw. Try again!")
 
-        # Spiel beenden
-        input("\n ----------> Press Enter to end the game. <----------")
+
         # Ende: Spielfeld auf null setzen
         self.board = None
+        # Spiel beenden
+        input("\n ----------> Press Enter to end the game. <----------")
 
     def set_move(self):
         current_move = self.current_player.make_move(self.board)
