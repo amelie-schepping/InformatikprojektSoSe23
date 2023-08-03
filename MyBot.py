@@ -45,21 +45,21 @@ class MyBot(Player):
             # 3. Methode für defensiven Move --> 2er/3er Ketten ermitteln
             #       --> advanced: xxoxx erkennen als fast gewonnen
 
-            #if not self.move_made:
-                #winning_move = self.make_winning_move(board)
-                #if winning_move is not None:
-                    #return winning_move
+            if not self.move_made:
+                winning_move = self.make_winning_move(board)
+                if winning_move is not None:
+                    return winning_move
 
             # make_defense_move returned True, wenn sie einen Zug setzen kann; wenn er verteidigen muss
-            #if not self.move_made:
-                #defense_move = self.make_defense_move(board)
-                #if defense_move is not None:
-                    #return defense_move
-
             if not self.move_made:
-                offense_move = self.make_offense_move(board)
-                if offense_move is not None:
-                    return offense_move
+                defense_move = self.make_defense_move(board)
+                if defense_move is not None:
+                    return defense_move
+
+            #if not self.move_made:
+                #offense_move = self.make_offense_move(board)
+                #if offense_move is not None:
+                    #return offense_move
 
             if not self.move_made:
                 center_move = self.make_center_move(board)
@@ -69,8 +69,6 @@ class MyBot(Player):
                 random_move = self.make_random_move(board)
                 return random_move
 
-            # if not self.move_made:
-            #     return self.make_center_move(board)
 
     def make_center_move(self, board):
         """
@@ -245,10 +243,10 @@ class MyBot(Player):
                             print(f"offense diagonale rechts unten {self.player_number}")
                             return ((row + (board.k - 1)), (col + (board.k - 1)))
                         else:
-                            if board.is_move_valid((row + 1), (col - 1)):
+                            if board.is_move_valid((row - 1), (col - 1)):
                                 self.move_made = True
                                 print(f"offense diagonale links oben {self.player_number}")
-                                return ((row + 1), (col - 1))
+                                return ((row - 1), (col - 1))
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
         for row in range(board.k - 1, board.m):
@@ -346,10 +344,10 @@ class MyBot(Player):
                             print(f"winning diagonale rechts unten {self.player_number}")
                             return row - (board.k - 1), col + (board.k - 1)
                         else:
-                            if board.is_move_valid(row + 1, col - 1):
+                            if board.is_move_valid(row - 1, col - 1):
                                 self.move_made = True
                                 print(f"winning diagonale links oben {self.player_number}")
-                                return row + 1, col - 1
+                                return row - 1, col - 1
 
         # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
         for row in range(board.k - 1, board.m):
