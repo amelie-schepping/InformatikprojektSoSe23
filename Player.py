@@ -6,7 +6,6 @@ class Player:
         - initialisiert Instanzvariablen eines Players
         :param name: Name von Player
         :param player_number: Nummer von Player
-        :param symbol: Symbol von Player für die Spielzüge
         """
         self.name = name
         self.player_number = player_number
@@ -57,12 +56,10 @@ class Player:
         und setzt diesen als Namen des Players
         """
         while True:
-            new_name = input("Your name: ")
+            new_name = input(f"Player {self.player_number}, what's your name: ")
             # prüfen, ob Name gültig ist (darf nicht leer sein und muss mit einem buchstaben anfangen)
             if new_name != "" and new_name[0].isalpha():
                 self.name = new_name
                 break
             else:
                 print("Please enter your name (must start with a letter).")
-
-

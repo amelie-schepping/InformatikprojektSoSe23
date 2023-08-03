@@ -38,7 +38,6 @@ class Game:
         else:
             self.current_player = self.player1
 
-
     def collect_data(self, gamemode1, gamemode2):
 
         # initialize Bots
@@ -73,8 +72,6 @@ class Game:
         print(winner, "has won!")
         self.board = None
         return winner
-
-
 
     def determine_starting_player(self):
         """
@@ -141,7 +138,6 @@ class Game:
         if winner == 0:
             print("This game ended in a draw. Try again!")
 
-
         # Ende: Spielfeld auf null setzen
         self.board = None
         # Spiel beenden
@@ -177,6 +173,7 @@ class Game:
 
         # Eingabe muss valid sein: Value Error Exception catchen
         # Mensch wird aufgefordert, einen Spielmodus einzugeben
+        ans = None
 
         while True:
             try:
@@ -195,20 +192,19 @@ class Game:
         # Spielmodus 1 (Mensch vs. Mensch)
         if ans == 1:
             # Spieler:innen geben sich Namen
-            print("Player 1! ")
             self.player1.set_player_name()
-            print("Player 2!")
             self.player2.set_player_name()
 
         if ans == 2:
             # Solo-Spieler:in gibt sich Namen
-            print("Player 1! ")
             self.player1.set_player_name()
 
             # Solo-Spieler:in bestimmt, wie stark der Bot sein soll
             print("Choose the strength of your opponent:")
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
+
+            gamemode = None
 
             while True:
                 try:
@@ -232,6 +228,8 @@ class Game:
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
 
+            gamemode1 = None
+            gamemode2 = None
             while True:
                 try:
                     gamemode1 = int(input("Enter your choice for your first Bot: "))
@@ -256,6 +254,3 @@ class Game:
 
         # Feld ausgeben
         self.board.display()
-
-
-

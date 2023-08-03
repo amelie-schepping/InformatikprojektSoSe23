@@ -133,7 +133,6 @@ class Board:
                         count += 1
                         if count == self.k:
                             return True
-                            count = 0
                     else:
                         count = 0
 
