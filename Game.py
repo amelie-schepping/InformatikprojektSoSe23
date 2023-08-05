@@ -38,15 +38,23 @@ class Game:
         else:
             self.current_player = self.player1
 
-    def collect_data(self, gamemode1, gamemode2):
+    def collect_data(self, gamemode1, gamemode2, starting_player):
 
         # initialize Bots
         self.player1 = MyBot("MyBot 1", 1, gamemode1)
         self.player2 = MyBot("MyBot 2", 2, gamemode2)
 
-        # static starting player? player 1 starting, player 2 starting
-        starting_player_in_game = self.determine_starting_player()
-        self.current_player = starting_player_in_game
+        # static starting player -> player 1 starting, player 2 starting
+        if starting_player == 1:
+            self.current_player = self.player1
+
+        if starting_player == 2:
+            self.current_player = self.player2
+
+        # zufälliger starting player
+        if starting_player not in [1, 2]:
+            starting_player_in_game = self.determine_starting_player()
+            self.current_player = starting_player_in_game
 
         # starting gameloop
         while not self.board.is_game_won_by(self.current_player.player_number):

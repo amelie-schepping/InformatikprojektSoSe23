@@ -1,7 +1,8 @@
 from Game import Game
 
-gamemode1 = 1
+gamemode1 = 2
 gamemode2 = 2
+starting_player = 1
 number_of_rounds = 10
 
 # initialize winner_count / draw_count
@@ -12,7 +13,7 @@ draw_count = 0
 for rounds in range(number_of_rounds):
 
     newGame = Game(5, 5, 4)
-    winner = newGame.collect_data(gamemode1, gamemode2)
+    winner = newGame.collect_data(gamemode1, gamemode2, starting_player)
 
     # Gewinner:in auf die Konsole ausgeben
     if winner == 1:
