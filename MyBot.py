@@ -14,7 +14,6 @@ class MyBot(Player):
 
         :param name: Name of the Bot
         :param player_number: Number of the Player
-        :param symbol: Symbol of the player
         """
 
         # Call the base class constructor
@@ -89,7 +88,6 @@ class MyBot(Player):
         # Try to make a move in the exact center
         if board.is_move_valid(starting_position[0], starting_position[1]):
             self.move_made = True
-            print(f"in die mitte gesetzt {self.player_number}")
             return starting_position
 
         # If the center is not available, attempt to make a move near the center
@@ -124,12 +122,10 @@ class MyBot(Player):
                     # If a winning move is detected, block it by placing a move on the adjacent spot
                     if board.is_move_valid(row, col + 1):
                         self.move_made = True
-                        print(f"defense row rechts {self.player_number}")
                         return row, col + 1
                     else:
                         if board.is_move_valid(row, col - (board.k - 1)):
                             self.move_made = True
-                            print(f"defense row links {self.player_number}")
                             return row, col - (board.k - 1)
 
         # Check columns
@@ -143,12 +139,10 @@ class MyBot(Player):
                     # If a winning move is detected, block it by placing a move on the adjacent spot
                     if board.is_move_valid(row + 1, col):
                         self.move_made = True
-                        print(f"defense col unten {self.player_number}")
                         return row + 1, col
                     else:
                         if board.is_move_valid(row - (board.k - 1), col):
                             self.move_made = True
-                            print(f"defense col oben {self.player_number}")
                             return row - (board.k - 1), col
 
         # Check diagonals
@@ -163,12 +157,10 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row + (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
-                            print(f"defense diagonale rechts unten {self.player_number}")
                             return row + (board.k - 1), col + (board.k - 1)
                         else:
                             if board.is_move_valid(row - 1, col - 1):
                                 self.move_made = True
-                                print(f"defense diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
         # Check reversed diagonals
@@ -183,12 +175,10 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
-                            print(f"defense diagonale rechts oben {self.player_number}")
                             return row - (board.k - 1), col + (board.k - 1)
                         else:
                             if board.is_move_valid(row + 1, col - 1):
                                 self.move_made = True
-                                print(f"defense diagonale links unten {self.player_number}")
                                 return row + 1, col - 1
 
     def make_offense_move(self, board):
@@ -210,12 +200,10 @@ class MyBot(Player):
                     # If k-2 player's symbols are found in a row, place a move to complete the winning sequence
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
-                        print(f"offense row rechts {self.player_number}")
                         return row, (col + 1)
                     else:
                         if board.is_move_valid(row, (col - (board.k - 2))):
                             self.move_made = True
-                            print(f"offense row links {self.player_number}")
                             return row, (col - (board.k - 2))
 
         # Check columns for potential offensive moves
@@ -228,12 +216,10 @@ class MyBot(Player):
                 if count == (board.k - 2):
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
-                        print(f"offense col unten {self.player_number}")
                         return (row + 1), col
                     else:
                         if board.is_move_valid((row - (board.k - 2)), col):
                             self.move_made = True
-                            print(f"offense col oben {self.player_number}")
                             return (row - (board.k - 2)), col
 
         # Check diagonals
@@ -247,12 +233,10 @@ class MyBot(Player):
                     if count == (board.k - 2):
                         if board.is_move_valid((row - (board.k - 2)), (col + (board.k - 2))):
                             self.move_made = True
-                            print(f"offense diagonale rechts unten {self.player_number}")
                             return (row - (board.k - 2)), (col + (board.k - 2))
                         else:
                             if board.is_move_valid((row - 1), (col - 1)):
                                 self.move_made = True
-                                print(f"offense diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
         # Check reversed diagonals
@@ -266,12 +250,10 @@ class MyBot(Player):
                     if count == (board.k - 2):
                         if board.is_move_valid((row - (board.k - 2)), (col + (board.k - 2))):
                             self.move_made = True
-                            print(f"offense diagonale rechts oben {self.player_number}")
                             return (row - (board.k - 2)), (col + (board.k - 2))
                         else:
                             if board.is_move_valid(row, col):
                                 self.move_made = True
-                                print(f"offense diagonale links unten {self.player_number}")
                                 return row, col
 
     def make_random_move(self, board):
@@ -292,7 +274,6 @@ class MyBot(Player):
             if board.fields[row][col] == 0:
                 # Mark the move as made
                 self.move_made = True
-                print(f"random move {self.player_number}")
 
                 # Return the chosen move
                 return row, col
@@ -316,12 +297,10 @@ class MyBot(Player):
                     # If k-1 player's symbols are found in a row, place a move to complete the winning sequence
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
-                        print(f"winning row rechts {self.player_number}")
                         return row, (col + 1)
                     else:
                         if board.is_move_valid(row, (col - (board.k - 1))):
                             self.move_made = True
-                            print(f"winning row links {self.player_number}")
                             return row, (col - (board.k - 1))
 
         # Check columns
@@ -334,12 +313,10 @@ class MyBot(Player):
                 if count == (board.k - 1):
                     if board.is_move_valid((row + 1), col):
                         self.move_made = True
-                        print(f"winning col unten {self.player_number}")
                         return (row + 1), col
                     else:
                         if board.is_move_valid((row - (board.k - 1)), col):
                             self.move_made = True
-                            print(f"winning col oben {self.player_number}")
                             return (row - (board.k - 1)), col
 
         # Check diagonals
@@ -353,12 +330,10 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid(row - (board.k - 1), col + (board.k - 1)):
                             self.move_made = True
-                            print(f"winning diagonale rechts unten {self.player_number}")
                             return row - (board.k - 1), col + (board.k - 1)
                         else:
                             if board.is_move_valid(row - 1, col - 1):
                                 self.move_made = True
-                                print(f"winning diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
         # Check reversed diagonals
@@ -372,10 +347,8 @@ class MyBot(Player):
                     if count == (board.k - 1):
                         if board.is_move_valid((row - (board.k - 1)), (col + (board.k - 1))):
                             self.move_made = True
-                            print(f"winning diagonale rechts oben {self.player_number}")
                             return (row - (board.k - 1)), (col + (board.k - 1))
                         else:
                             if board.is_move_valid((row + 1), (col - 1)):
                                 self.move_made = True
-                                print(f"winning diagonale links unten {self.player_number}")
                                 return (row + 1), (col - 1)
