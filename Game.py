@@ -9,134 +9,143 @@ class Game:
 
     def __init__(self, m, n, k):
         """
-        Konstruktor der Klasse Game
-        - setzt die Instanzvariablen des Games
-        board: Spielfeld
-        player1: Player 1
-        player2: Player 2
-        :param m: Zeilen des Spielfelds
-        :param n: Spalten des Spielfelds
-        :param k: Gewinnbedingung (Anzahl eines Symbols in einer Reihe für einen Gewinn)
+        Constructor for Game.
+
+        :param m: Number of rows in the game board
+        :param n: Number of columns in the game board
+        :param k: Winning condition
         """
+
         self.m = m
         self.n = n
         self.k = k
 
+        # Initialize the game components
         self.board = Board(m, n, k)
         self.player1 = Player("Player1", 1)
         self.player2 = Player("Player2", 2)
 
-        # Spieler:in, der/die gerade dran ist - wird zunächst mit Player 1 initialisiert
+        # Player currently taking their turn - initially set to Player 1
         self.current_player = self.player1
 
     def change_current_player(self):
         """
-        Funktion wechselt den/die aktuelle:n Spieler:in
+        Function switches the current player.
         """
+
         if self.player1 == self.current_player:
             self.current_player = self.player2
         else:
             self.current_player = self.player1
 
     def collect_data(self, gamemode1, gamemode2, starting_player):
+        """
+        Function collects data from the game, including the game mode and starting conditions.
 
-        # initialize Bots
+        :param gamemode1: Game mode for player 1.
+        :param gamemode2: Game mode for player 2.
+        :param starting_player: Specifies the starting player (1, 2, or random).
+        :return: The winner of the game (1, 2, or 0 for draw).
+        """
+
+        # Initialize bots for players
         self.player1 = MyBot("MyBot 1", 1, gamemode1)
         self.player2 = MyBot("MyBot 2", 2, gamemode2)
 
-        # static starting player -> player 1 starting, player 2 starting
+        # Set the starting player
         if starting_player == 1:
             self.current_player = self.player1
 
         if starting_player == 2:
             self.current_player = self.player2
 
-        # zufälliger starting player
+        # If the starting player is not 1 or 2, determine the starting player randomly
         if starting_player not in [1, 2]:
             starting_player_in_game = self.determine_starting_player()
             self.current_player = starting_player_in_game
 
-        # starting gameloop
+        # Start the game loop
         while not self.board.is_game_won_by(self.current_player.player_number):
-
+            # Set the current player's move
             self.set_move()
 
-            # check if there is a winner
+            # Check for a winner after each move
             if self.board.is_game_won_by(self.current_player.player_number):
                 break
 
-            # check if for a draw
+            # Check for a draw
             if self.board.is_board_full():
                 break
 
+            # Switch to the other player for the next move
             self.change_current_player()
 
-        # Ende des Gameloops
-
+        # Display the final state of the board
         self.board.display()
 
-        # das Spiel wurde gewonnen, Gewinner:in ermitteln
+        # Determine the winner and display the result
         winner = self.board.has_won(self.current_player.player_number)
         print(winner, "has won!")
+
+        # Reset the game board
         self.board = None
         return winner
 
     def determine_starting_player(self):
         """
-           Funktion bestimmt den/die Startspieler:in zufällig
-           :return: gibt Startspieler:in zurück
+        Function randomly determines the starting player.
+
+        :return: The randomly chosen starting player.
         """
+
         starting_player = random.choice([self.player1, self.player2])
         return starting_player
 
     def game_loop(self):
         """
-        Funktion regelt Spielablauf
+        Function manages the game loop.
         """
-        # vor dem eigentlichen Gameloop wird das Spiel gestartet
+
+        # Start the game before the actual game loop
         self.start()
 
-        # Startspieler:in wird zufällig gewählt und auf Konsole ausgegeben
+        # Choose the starting player randomly and display their name
         starting_player_in_game = self.determine_starting_player()
         print(f"The starting player is: {starting_player_in_game.name}\n")
 
-        # Startspieler:in wird als aktuelle Spieler:in gesetzt
+        # Set the starting player as the current player
         self.current_player = starting_player_in_game
 
-        # Beginn des Gameloops
+        # As long as no one has won:
         while not self.board.is_game_won_by(self.current_player.player_number):
-            # solange niemand gewonnen hat:
 
-            # Name des aktuellen Spielers wird auf die Konsole ausgegeben
+            # Display the name of the current player
             print(f"{self.current_player.name}, it's your turn!")
 
-            # aktueller Spieler macht einen Spielzug
+            # Current player makes a move
             self.set_move()
 
-            # Anzeigen des gesetzten Spielzugs
-            # in display wird auch die player_number vom Symbol überlagert
+            # Display the game board
             self.board.display()
 
-            # checken, ob es einen Gewinner gibt
+            # Check if there is a winner
             if self.board.is_game_won_by(self.current_player.player_number):
-                # das Spiel wurde gewonnen, der Gameloop wird mit break verlassen
+                # The game has been won, exit the game loop with break
                 break
 
-            # checken, ob das Spielfeld voll ist
+            # Check if the game board is full
             if self.board.is_board_full():
-                # das Spielfeld ist voll, der Gameloop wird mit break verlassen
+                # The game board is full, exit the game loop with break
                 break
 
-            # das Spiel wurde noch nicht gewonnen
-            # aktueller Spieler wird gewechselt, while-Schleife beginnt von vorne
+            # The game hasn't been won yet
+            # Switch to the other player and continue the while loop
             self.change_current_player()
 
-        # Ende des Gameloops
-
-        # das Spiel wurde gewonnen, Gewinner:in ermitteln
+        # Determine the winner of the game
         winner = self.board.has_won(self.current_player.player_number)
 
-        # Gewinner:in auf die Konsole ausgeben
+        # Display the winner's name or indicate a draw
         if winner == 1:
             print(f"Congratulations {self.player1.name}! You have won!")
 
@@ -146,45 +155,46 @@ class Game:
         if winner == 0:
             print("This game ended in a draw. Try again!")
 
-        # Ende: Spielfeld auf null setzen
+        # Reset the game board and end the game
         self.board = None
-        # Spiel beenden
         input("\n ----------> Press Enter to end the game. <----------")
 
     def set_move(self):
+        """
+        Function sets the current player's move on the game board.
+        """
+
+        # Get the current move from the current player's make_move function
         current_move = self.current_player.make_move(self.board)
 
+        # Extract the row and column from the current move
         row = current_move[0]
         col = current_move[1]
 
+        # Set the current player's symbol on the specified row and column
         self.board.fields[row][col] = self.current_player.player_number
 
     def start(self):
         """
-        Funktion startet das Spiel
-        - die Spielenden geben sich ihre Namen
-        - das Spielfeld wird angezeigt
+        Function starts the game by setting up players' names and displaying the game board.
         """
 
-        # Willkommensnachricht zum Start des Spiels
+        # Welcome message at the start of the game
         print("Welcome to Break - a Game for Smart Minds", "\n")
 
-        # Spiel Modus-Abfrage
-        # mögliche Spielmodi werden auf die Konsole ausgegeben
+        # Game mode selection:
+        # The possible game modes are displayed on the console
         print("GAME MODE")
         print("-- 1: Player vs Player -- ")
         print("-- 2: Player vs. Bot --")
         print("-- 3: Bot vs. Bot --")
-        # print("-- 2: Player vs Bot (easy) -- ")
-        # print("-- 3: Player vs Bot (hard) -- ")
-        # print("-- 4: Bot vs Bot  -- ")
 
-        # Eingabe muss valid sein: Value Error Exception catchen
-        # Mensch wird aufgefordert, einen Spielmodus einzugeben
+        # Input must be valid: Catch ValueError exception
         ans = None
 
         while True:
             try:
+                # Prompt the player to enter a game mode choice
                 ans = int(input("Enter the number of your choice: "))
 
                 if ans not in [1, 2, 3]:
@@ -195,19 +205,18 @@ class Game:
                 print("Please enter a valid choice!")
                 continue
 
-        # je nachdem, welcher Spiel-Modus angefordert wird, passiert unterschiedliches
-
-        # Spielmodus 1 (Mensch vs. Mensch)
+        # Game mode 1 (Player vs. Player)
         if ans == 1:
-            # Spieler:innen geben sich Namen
+            # Players input their names
             self.player1.set_player_name()
             self.player2.set_player_name()
 
+        # Game mode 2 (Player vs. Bot)
         if ans == 2:
-            # Solo-Spieler:in gibt sich Namen
+            # Solo player inputs their name
             self.player1.set_player_name()
 
-            # Solo-Spieler:in bestimmt, wie stark der Bot sein soll
+            # Solo player chooses the strength of the bot opponent
             print("Choose the strength of your opponent:")
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
@@ -226,24 +235,24 @@ class Game:
                     print("Please enter a valid choice!")
                     continue
 
-            # Player 2 wird als Bot initialisiert, der mit der gewählten Stärke spielt
+            # Player 2 is initialized as a bot with the chosen strength
             self.player2 = MyBot("MyBot", 2, gamemode)
 
-        # Spielmodus 4 (Bot vs. Bot)
+        # Game mode 3 (Bot vs. Bot)
         if ans == 3:
-            # Stärke der Bots wählen
+            # Choose the strengths of the bot opponents
             print("Choose the strength of the opponents: ")
             print("for level 1 press -- 1")
             print("for level 2 press -- 2")
 
             gamemode1 = None
             gamemode2 = None
+            
             while True:
                 try:
                     gamemode1 = int(input("Enter your choice for your first Bot: "))
                     gamemode2 = int(input("Enter your choice for your second Bot: "))
 
-                    # check input
                     if gamemode1 not in [1, 2] or gamemode2 not in [1, 2]:
                         raise ValueError
 
@@ -253,12 +262,12 @@ class Game:
                     print("Please enter a valid choice!")
                     continue
 
-            # beide Player werden automatisch als (strategische) Bots gesetzt
+            # Both players are automatically set as (possibly strategic) bots
             self.player1 = MyBot("MyBot 1", 1, gamemode1)
             self.player2 = MyBot("MyBot 2", 2, gamemode2)
 
-        # Spielbeginn ankündigen
+        # Announce the start of the game
         print("YOUR GAME STARTS....NOW!")
 
-        # Feld ausgeben
+        # Display the game board
         self.board.display()

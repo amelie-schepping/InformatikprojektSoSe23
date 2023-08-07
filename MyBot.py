@@ -5,104 +5,115 @@ import random
 
 class MyBot(Player):
     """
-    Die Klasse MyBot ist eine Subklasse von der Klasse Player
+    The MyBot class is a subclass of the Player class.
     """
 
     def __init__(self, name, player_number, game_mode):
         """
-        Konstruktor der Klasse MyBot
-        - initialisiert folgende Instanzvariablen
-        name: Name vom Bot
-        player_number: Bot ist Player 1 oder 2
-        symbol: Symbol des Bots für die Spielzüge
+         Constructor for MyBot.
+
+        :param name: Name of the Bot
+        :param player_number: Number of the Player
+        :param symbol: Symbol of the player
         """
+
+        # Call the base class constructor
         super().__init__(name, player_number)
 
-        # neue Instanzvariable game_mode
+        # Set the game mode for the bot
         self.game_mode = game_mode
 
-        # wurde bereits ein zug gemacht?
+        # Indicates whether a move has been made in this turn
         self.move_made = False
 
     def make_move(self, board):
         """
-        Spielzug abhängig vom GameMode
-        gibt ein Tupel zurück
-        :param board:
-        :return: tuple (row:int col: int)
+        Determines the bot's move based on the game mode.
+
+        :param board: The game board
+        :return: A tuple representing the chosen move (row, col)
         """
+        
+        # Reset the move_made flag at the beginning of each turn
         self.move_made = False
 
-        # if game mode 1 --> Zufallszug
+        # Game Mode 1: Random Move
         if self.game_mode == 1:
             return self.make_random_move(board)
 
-        # if game mode 2 --> strategischer Zug
+        # Game Mode 2: Strategic Moves
         if self.game_mode == 2:
 
+            # Try to make a winning move
             if not self.move_made:
                 winning_move = self.make_winning_move(board)
                 if winning_move is not None:
                     return winning_move
 
+            # Try to make a defensive move
             if not self.move_made:
                 defense_move = self.make_defense_move(board)
                 if defense_move is not None:
                     return defense_move
 
+            # Try to make an offensive move
             if not self.move_made:
                 offense_move = self.make_offense_move(board)
                 if offense_move is not None:
                     return offense_move
 
+            # Try to make a center move
             if not self.move_made:
                 center_move = self.make_center_move(board)
                 return center_move
 
+            # If no strategic move was possible, make a random move
             if not self.move_made:
                 random_move = self.make_random_move(board)
                 return random_move
 
     def make_center_move(self, board):
         """
-        VORLÄUFIGE METHODE
-        :param board:
-        :return:
+        Attempts to make a move towards the center of the board.
+
+        :param board: The game board
+        :return: A tuple representing the chosen move (row, col)
         """
 
-        # Berechne die Mitte des Spielfelds
-        # wird automatisch gerundet
+        # Calculate the coordinates of the center of the board
         row_mid = board.m // 2
         col_mid = board.n // 2
 
         starting_position = (row_mid, col_mid)
 
-        # versuche zunächst in die Mitte zu setzen
+        # Try to make a move in the exact center
         if board.is_move_valid(starting_position[0], starting_position[1]):
             self.move_made = True
             print(f"in die mitte gesetzt {self.player_number}")
             return starting_position
 
-        # postions next to the middle
+        # If the center is not available, attempt to make a move near the center
         else:
             mid_positions = [(row_mid, col_mid + 1), (row_mid + 1, col_mid + 1), (row_mid + 1, col_mid),
                              (row_mid + 1, col_mid - 1), (row_mid, col_mid - 1), (row_mid - 1, col_mid - 1),
                              (row_mid - 1, col_mid), (row_mid - 1, col_mid + 1)]
 
             while True:
+                # Choose a random position from the list of mid_positions
                 starting_position = random.choice(mid_positions)
                 if board.is_move_valid(starting_position[0], starting_position[1]):
                     self.move_made = True
-                    print(f"fast in die mitte gesetzt {self.player_number}")
                     return starting_position
 
     def make_defense_move(self, board):
         """
-        :param board:
-        :return:
+        Makes a defensive move based on current game board and player's number.
+
+        :param board: The game board
+        :return: A tuple representing the row and column of the defensive move.
         """
 
-        # check rows
+        # Check rows for possible winning moves for the opponent
         for row in range(board.m):
             count = 0
             for col in range(board.n):
@@ -110,6 +121,7 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
+                    # If a winning move is detected, block it by placing a move on the adjacent spot
                     if board.is_move_valid(row, col + 1):
                         self.move_made = True
                         print(f"defense row rechts {self.player_number}")
@@ -120,7 +132,7 @@ class MyBot(Player):
                             print(f"defense row links {self.player_number}")
                             return row, col - (board.k - 1)
 
-        # Überprüfung der Spalten
+        # Check columns
         for col in range(board.n):
             count = 0
             for row in range(board.m):
@@ -128,6 +140,7 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
+                    # If a winning move is detected, block it by placing a move on the adjacent spot
                     if board.is_move_valid(row + 1, col):
                         self.move_made = True
                         print(f"defense col unten {self.player_number}")
@@ -138,7 +151,7 @@ class MyBot(Player):
                             print(f"defense col oben {self.player_number}")
                             return row - (board.k - 1), col
 
-        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        # Check diagonals
         for row in range(board.m - board.k + 1):
             for col in range(board.n - board.k + 1):
                 count = 0
@@ -158,7 +171,7 @@ class MyBot(Player):
                                 print(f"defense diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
-        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        # Check reversed diagonals
         for row in range(board.k - 1, board.m):
             for col in range(board.n - board.k + 1):
                 count = 0
@@ -179,7 +192,14 @@ class MyBot(Player):
                                 return row + 1, col - 1
 
     def make_offense_move(self, board):
-        # check rows
+        """
+        Makes an offensive move based on current game board and player's number.
+
+        :param board: The game board object.
+        :return: A tuple representing the row and column of the offensive move.
+        """
+
+        # Check rows for potential offensive moves
         for row in range(board.m):
             count = 0
             for col in range(board.n):
@@ -187,6 +207,7 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 2):
+                    # If k-2 player's symbols are found in a row, place a move to complete the winning sequence
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
                         print(f"offense row rechts {self.player_number}")
@@ -197,7 +218,7 @@ class MyBot(Player):
                             print(f"offense row links {self.player_number}")
                             return row, (col - (board.k - 2))
 
-        # Überprüfung der Spalten
+        # Check columns for potential offensive moves
         for col in range(board.n):
             count = 0
             for row in range(board.m):
@@ -215,7 +236,7 @@ class MyBot(Player):
                             print(f"offense col oben {self.player_number}")
                             return (row - (board.k - 2)), col
 
-        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        # Check diagonals
         for row in range(board.m - board.k + 1):
             for col in range(board.n - board.k + 1):
                 count = 0
@@ -234,7 +255,7 @@ class MyBot(Player):
                                 print(f"offense diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
-        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        # Check reversed diagonals
         for row in range(board.k - 1, board.m):
             for col in range(board.n - board.k + 1):
                 count = 0
@@ -255,32 +276,36 @@ class MyBot(Player):
 
     def make_random_move(self, board):
         """
-        Funktion für den Zufallsspielzug des Bots
+        Makes a random move for the Bot.
+
+        :param board: The game board.
+        :return: A tuple representing the row and column of the random move.
         """
 
-        # generiert so lange Zufallszahlen, bis eine gültige gefunden wurde
+        # Keep generating random positions until a valid one is found
         while True:
-            # random.randint erzeugt Zufallszahlen von 0 bis (exklusive) board.m (Zeilen)
+            # Generate random row and column indices using numpy's randint
             row = np.random.randint(board.m)
-            # random.randint erzeugt Zufallszahlen von 0 bis (exklusive) board.n (Spalten)
             col = np.random.randint(board.n)
 
-            # prüft, ob Zufallsposition noch nicht belegt ist
+            # Check if the randomly chosen position is empty
             if board.fields[row][col] == 0:
-                # setzt Zufallsposition auf freies Feld
+                # Mark the move as made
                 self.move_made = True
                 print(f"random move {self.player_number}")
+
+                # Return the chosen move
                 return row, col
-                # board.fields[row][col] = self.player_number
-                # beendet Schleife, da Bot seinen Zug nun gesetzt hat
 
     def make_winning_move(self, board):
         """
-        :param board:
-        :return:
+        Makes a winning move if possible.
+
+        :param board: The game board.
+        :return: A tuple representing the row and column of the winning move.
         """
 
-        # check rows
+        # Check rows for potential winning move
         for row in range(board.m):
             count = 0
             for col in range(board.n):
@@ -288,6 +313,7 @@ class MyBot(Player):
                     count += 1
 
                 if count == (board.k - 1):
+                    # If k-1 player's symbols are found in a row, place a move to complete the winning sequence
                     if board.is_move_valid(row, (col + 1)):
                         self.move_made = True
                         print(f"winning row rechts {self.player_number}")
@@ -298,7 +324,7 @@ class MyBot(Player):
                             print(f"winning row links {self.player_number}")
                             return row, (col - (board.k - 1))
 
-        # Überprüfung der Spalten
+        # Check columns
         for col in range(board.n):
             count = 0
             for row in range(board.m):
@@ -316,7 +342,7 @@ class MyBot(Player):
                             print(f"winning col oben {self.player_number}")
                             return (row - (board.k - 1)), col
 
-        # Überprüfung der Diagonalen (von links oben nach rechts unten)
+        # Check diagonals
         for row in range(board.m - board.k + 1):
             for col in range(board.n - board.k + 1):
                 count = 0
@@ -335,7 +361,7 @@ class MyBot(Player):
                                 print(f"winning diagonale links oben {self.player_number}")
                                 return row - 1, col - 1
 
-        # Überprüfung der umgekehrten Diagonalen (von links unten nach rechts oben)
+        # Check reversed diagonals
         for row in range(board.k - 1, board.m):
             for col in range(board.n - board.k + 1):
                 count = 0

@@ -1,63 +1,62 @@
 class Player:
- 
+
     def __init__(self, name, player_number):
         """
-        Konstruktor der Klasse Player
-        - initialisiert Instanzvariablen eines Players
-        :param name: Name von Player
-        :param player_number: Nummer von Player
+        Constructor for Player
+
+        :param name: Name of the Player
+        :param player_number: Number of the Player
         """
+
         self.name = name
         self.player_number = player_number
 
     def make_move(self, board):
         """
-        Funktion setzt einen Spielzug
-        :param board: Spielfeld, auf dem der Spielzug gesetzt wird
+        Function to make a move on the game board.
+        :param board:  Game board on which the move is made.
         :return: tuple (row: int, col: int)
         """
-        # while-Schleife
+
+        # Use a while loop for continuous input until a valid move is obtained
         while True:
-            # Error-Handling mit try-except
             try:
-                # Eingabe fordern
+                # Prompt for user input
                 row = int(input("Enter row: "))
                 col = int(input("Enter column: "))
 
-                # prüfen, ob Eingabe gültig ist
+                # Check if the input move is valid
                 if board.is_move_valid(row - 1, col - 1):
-                    # Eingabe ist gültig
-                    # prüfen, dass Eingabe != Enter/nicht leer ist
+                    # Ensure both row and column inputs are not empty
                     if row and col != "":
-                        # Eingabe in indexierte Array-Struktur umwandeln
+                        # Convert input to zero-based indexed array structure
                         row = row - 1
                         col = col - 1
 
                         move = (row, col)
-                        # die nun gültige Eingabe wird als Spielzug zurückgegeben
+                        # Return the valid move
                         return move
 
-                # Eingabe ist nicht gültig, Schleife beginnt von vorne
+                # If the input move is not valid, prompt for a new input
                 else:
                     print("Please enter a valid position!")
 
-            # es gibt einen Fehler (ValueError), weil ein falscher Wert eingegeben wurde
+            # Handle error (ValueError) in case of invalid input
             except ValueError:
-                # Spieler:in wird aufgefordert, eine gültige Position einzugeben
+                # Prompt the player to enter a valid position
                 print("Please enter a valid position!")
-                # Schleife beginnt von vorne
                 continue
-
-        # board.fields[row][col] = self.player_number
 
     def set_player_name(self):
         """
-        Funktion fordert Namenseingabe von Player über die Konsole
-        und setzt diesen als Namen des Players
+        Function prompts the Player to enter their name via the console
+        and sets it as the Player's name.
         """
+        
         while True:
             new_name = input(f"Player {self.player_number}, what's your name: ")
-            # prüfen, ob Name gültig ist (darf nicht leer sein und muss mit einem buchstaben anfangen)
+
+            # Check if the entered name is valid (should not be empty and must start with a letter)
             if new_name != "" and new_name[0].isalpha():
                 self.name = new_name
                 break
